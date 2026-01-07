@@ -3,5 +3,1550 @@ https://limewire.com/d/MyLL3#A8dMITiywu
 pravi:
 https://limewire.com/d/ktPxy#33tOr9OMzH
 
+########################################
+
+
+    funkcija_oznacba_prehod("======= M A S A N I E L L O =======")
+    print("\n\n*******************************======= M A S A N I E L L O =======************************************\n\n")
+    povzeto={}
+    krog_obrat =0
+    global_value.seja +=1
+    global_value.dolzina_kljucev = 0
+    rezultat_ma3 =[]
+    rezultat_ma3_s30 =[]
+    podatki_za_masaniello=[]
+    vloga_ma3 = 2
+    """
+    izpis napake ker ni bilo povezave!!
+    2025-08-13 20:05:26.629891 :[ERROR]: timed out during opening handshake
+    2025-08-13 20:05:35.608071 :[ERROR]: [Errno -3] Temporary failure in name resolution
+    """
+        
+    # TRENUTNO NE POTREBUJEM PODATKOV ZADNJIH KONCANIH TREJDOV
+    
+    
+    min_payout = 92
+    
+    racun_zacetna_banka = api.get_balance()
+
+    if racun_zacetna_banka < 1:
+        quit(f"\n\nQUIT ****** QUIT ******* ZNESEK NA RACUNU JE PREMAJHEN ({racun_zacetna_banka}) ********** QUIT **************** QUIT\n\n")
+        #exit(f"\n\nEXIT ****** EXIT ******* ZNESEK NA RACUNU JE PREMAJHEN ({racun_zacetna_banka}) ********** EXIT **************** EXIT\n\n")
+        #print(f"\n\nRETURN ****** RETURN ******* ZNESEK NA RACUNU JE PREMAJHEN ({racun_zacetna_banka}) ********** RETURN ********** RETURN\n\n")
+        #return
+    
+    print("\nKLIC FUNKCIJE get_payout()\n")
+    if not get_payout():
+        quit("QUIT! Ni aktivnih parov")
+    time.sleep(1)
+    print("\nglobal_value.pairs.keys()\n")
+    print(global_value.pairs.keys())
+    print("\nkeys len = ",len(global_value.pairs.keys()))
+    
+    Aktivni_par = list(global_value.pairs.keys())[0]
+    print("Aktivni_par = ", Aktivni_par)
+    print(
+        "podatki aktivnega para: ", global_value.pairs[Aktivni_par],
+        "podatek za payout: ",global_value.pairs[Aktivni_par]["payout"]
+    )  # dobim dict >>  {'id': 67, 'payout': 92, 'type': 'currency'}
+    aktivni_payout = global_value.pairs[Aktivni_par]["payout"]
+    """
+    print("\n\n==============>>>>> Aktinvni par assets = ",global_value.assets[0])
+    print("\n")
+    """
+    primerjevalni_payout = 0
+    for i in global_value.assets:
+        #print(i)
+        if i[1] == Aktivni_par:
+            """
+            print(f"\nIZPIS IZ SEZNAMA ASSETS:\n PAR: {Aktivni_par}\n PODATKI: {i}")
+            print(f"\nPRIMERJAVA pairs in assets: \npairs-payout: {global_value.pairs[Aktivni_par]["payout"]} \nassets-payout: {i[5]} \n")
+            """
+            primerjevalni_payout = i[5]
+            
+    print("\n")
+    print(f"\nIZID PRIMERJAVE = (pairs) {aktivni_payout} VS (assets) {primerjevalni_payout} \nSTA ENAKA {aktivni_payout == primerjevalni_payout} \n")
+    if aktivni_payout != primerjevalni_payout:
+        print(" ker nista enaka klicem ponovno >> masaniello <<")
+        #novi_par=None
+        for i in global_value.assets:
+            if  i[14] == True and "_otc" in i[1] and i[5] == 92 and i[3] == "currency":
+                print(i)
+                Aktivni_par = i[1]
+                break
+            """
+            PRIMER IZPISA:
+            [68, 'AUDCHF_otc', 'AUD/CHF OTC', 'currency', 5, 92, 60, 30, 3, 1, 0, 37, [], 1763251200, True, [{'time': 60}, {'time': 120}, {'time': 180}, {'time': 300}, {'time': 600}, {'time': 900}, {'time': 1800}, {'time': 2700}, {'time': 3600}, {'time': 7200}, {'time': 10800}, {'time': 14400}], 0, 3, -1]
+            [38, 'AUDJPY', 'AUD/JPY', 'currency', 3, 50, 60, 30, 3, 0, 69, 0, [], 1763251200, False, [{'time': 60}, {'time': 120}, {'time': 180}, {'time': 300}, {'time': 600}, {'time': 900}, {'time': 1800}, {'time': 2700}, {'time': 3600}, {'time': 7200}, {'time': 10800}, {'time': 14400}], -1, 60, 1763344800]
+            [69, 'AUDJPY_otc', 'AUD/JPY OTC', 'currency', 3, 80, 60, 30, 3, 1, 0, 38, [], 1763251200, True, [{'time': 60}, {'time': 120}, {'time': 180}, {'time': 300}, {'time': 600}, {'time': 900}, {'time': 1800}, {'time': 2700}, {'time': 3600}, {'time': 7200}, {'time': 10800}, {'time': 14400}], 0, 3, -1]
+            """
+        """
+        api.change_symbol(novi_par,60)
+        time.sleep(1)
+        print("\n\nKONCAN IZPISA ASSETS! KLICEM MASANIELLO!!\n\n")
+        quit("ZAENKRAT USTAVLJENO \n\n")
+        masaniello()
+        """
+        
+    # par = Aktivni_par
+    # menjava =api.change_symbol(Aktivni_par,60)
+    # menjava =api.change_symbol(Aktivni_par,30)
+    #svece = api.get_candles(Aktivni_par, 60)
+    api.get_candles(Aktivni_par, 60)
+    time.sleep(1)
+    print(
+        f"aktivni par: {Aktivni_par} zapisan:  ",
+        "JE" if Aktivni_par in global_value.zgodovina_3 else "NI",
+    )
+    
+    if Aktivni_par not in global_value.zgodovina_3:
+        exit(f"\n============= IZHOD ==============\n NI ZAPISA V ZGODOVINI ZA PAR: {Aktivni_par} ")
+        quit(f"IZHOD QUIT!!")
+        
+        
+    print("kluci v zgodovini ", global_value.zgodovina_3.keys())
+    if Aktivni_par in global_value.zgodovina_3:
+        if "zgodovina" in global_value.zgodovina_3[Aktivni_par]:
+            print("\n\n ***************** POGOJI SO IZPOLNJENI  ****************** \n")
+            print(" par je v zgodovini 3 in zgodovina je zapisana!!!!\n")
+            
+    zgodovina = global_value.zgodovina_3[Aktivni_par]["zgodovina"]
+    
+    zgodovina_3_zadni = global_value.zgodovina_3[Aktivni_par]["zgodovina"][-1][0]
+    zgodovina_3_pred_zadni = global_value.zgodovina_3[Aktivni_par]["zgodovina"][-2][0]
+    print(f" URA: pred zadni {zgodovina_3_pred_zadni} || zadni {zgodovina_3_zadni} ")
+    
+    minute = {}
+    
+    
+    """
+    # DEL UCNEGA PROCESA
+    print("zgodovina prvi izpis = ",global_value.zgodovina_3[Aktivni_par]["zgodovina"][0])
+    print("zgodovina prvi izpis cas= ",datetime.fromtimestamp(global_value.zgodovina_3[Aktivni_par]["zgodovina"][0][0]))
+    print("zgodovina prvi izpis UTC cas= ",datetime.fromtimestamp(global_value.zgodovina_3[Aktivni_par]["zgodovina"][0][0],tz=timezone.utc))
+    print("zgodovina prvi izpis cena= ",global_value.zgodovina_3[Aktivni_par]["zgodovina"][0][-1])
+    print("zgodovina ZADNI izpis = ",global_value.zgodovina_3[Aktivni_par]["zgodovina"][-1])
+    print("zgodovina ZADNI izpis cas= ",datetime.fromtimestamp(global_value.zgodovina_3[Aktivni_par]["zgodovina"][-1][0]))
+    print("zgodovina ZADNI izpis UTC cas= ",datetime.fromtimestamp(global_value.zgodovina_3[Aktivni_par]["zgodovina"][-1][0],tz=timezone.utc))
+    print("zgodovina ZADNI izpis cena= ",global_value.zgodovina_3[Aktivni_par]["zgodovina"][-1][-1])
+    """
+    
+    # primer za izdelavo dict
+    # global_value.zgodovina_3[message["asset"]]={"zgodovina": message["history"]}
+    global_value.minute[Aktivni_par]=bars(Aktivni_par)
+    minute = bars(Aktivni_par)
+    kluci = list(minute.keys())
+    
+    """
+    #za debug odkomentiraj
+    print("\nvsi kljuci >> prvic\n")
+    print(minute.keys())
+    print("\n:::::::::::::::::::::::::::::::\nvsi kljuci >> drugic\n")
+    print(kluci)
+    print("\nvsi kljuci konec\n\n")
+    """
+    
+    print("ZADNJA OHLC IZ BARS")
+    bar_1 = ohlc(bars(Aktivni_par),1)
+    bar_0 = ohlc(bars(Aktivni_par),0)
+    
+    """
+    print("SVECA 1 (to je misljena predzadnja sveca MINUTNA)")
+    print(" z prvo ceno ", minute[kluci[-2]][0])
+    print(" z max ceno (high) ", max(minute[kluci[-2]]))
+    print(" z min ceno (low) ", min(minute[kluci[-2]]))
+    print(" z zadnjo ceno ", minute[kluci[-2]][-1])
+    print("\nsveca je 1 ohlc: (PREDZADNJA *MINUTNA* SVECA)")
+    ohlc_izpis(minute[kluci[-2]])
+    print("\npredzadnji BAR")
+    ohlc(minute,1)
+    
+    print("SVECA 0 (to je aktivna sveca MINUTNA!!")
+    print(" zadnji kljuc z prvo ceno ", minute[kluci[-1]][0])
+    print(" zadnji kljuc z max ceno (high) ", max(minute[kluci[-1]]))
+    print(" zadnji kljuc z min ceno (low) ", min(minute[kluci[-1]]))
+    print(" zadnji kljuc z zadnjo ceno ", minute[kluci[-1]][-1])
+    print("\nsveca je 0 ohlc: (AKTIVNA *MINUTNA* SVECA)")
+    ohlc_izpis(minute[kluci[-1]])
+    """
+    
+    """
+    print("\nzadnji BAR")
+    #bar_1 = ohlc(minute,1)
+    print("bar_1 o = ",bar_1["o"])
+    print("bar_1 h = ",bar_1["h"])
+    print("bar_1 l = ",bar_1["l"])
+    print("bar_1 c = ",bar_1["c"])
+    print("bar_1 s = ",bar_1["s"])
+    print("BULL" if bar_1["o"] < bar_1["c"] else "BEAR")
+    print("\naktivni BAR")
+    #bar_0 = ohlc(minute,0)
+    print("bar_0 o = ",bar_0["o"])
+    print("bar_0 h = ",bar_0["h"])
+    print("bar_0 l = ",bar_0["l"])
+    print("bar_0 c = ",bar_0["c"])
+    print("bar_0 s = ",bar_0["s"])
+    print("BULL" if bar_0["o"] < bar_0["c"] else "BEAR")
+    
+    """
+    
+    #bar_0 = ohlc(minute,0)
+    #print("bar_0[o] = ",bar_0["o"])
+    
+    # DOBIM PREAVILNI IZPIS print("ohlc(minute_0)[o] = ",ohlc(minute,0)["o"])
+    
+
+    zadnja_minuta = datetime.now().minute
+    
+    zadnji_izdelan_kluc_minute = list(minute.keys())[-1]
+    # while True:
+        # 
+        # 
+        # 
+    print("\n", "=" * 50, "\nPRED WHILE >> PRVIC\n", "=" * 50)
+    print("bar 1 = ",bar_1["s"])
+    print("aktivni bar = ","BULL" if bar_0["o"] < bar_0["c"] else "BEAR")
+    print("!aktivni! bar 0 = ",bar_0["s"])
+    print("zadnji_izdelan_kluc_minute = ",zadnji_izdelan_kluc_minute)
+    krogov = 0
+    
+    # while zadnja_minuta == datetime.now().minute:
+        # 
+        # 
+        # 
+    rezultat = []
+    koncan_trejd = [0, "cakam"]
+    zacetni_trejd = 0
+    uspesni_trejdi = 0
+    neuspesni_trejdi = 0
+    ma_skupina_pozitivni=[]
+    ma_skkupina_negativni=[]
+    
+    # zacetna_banka =0
+    #racun_zacetna_banka = api.get_balance()
+    print("\n\n Aktivna bilanca racuna = ", racun_zacetna_banka)
+
+    print("""\n   ===================  MASANIELLO PODATKI ==============  \n""")
+    
+    zacetna_banka = 83
+
+    
+    """ od 25 do 50 zacetna vloga: 1.03
+    ms_pozitivnih = 1
+    ms_trejdov = 4
+    ms_procent = 1.92
+    #ms_vloga = 17# popravek na 20 ker imama zacetni trejd 1,21<
+    ms_vloga = 20# popravek na 20 ker imama zacetni trejd 1,21
+    """
+    """ EXTREMNI TEST """
+    ms_pozitivnih = 1
+    ms_trejdov = 9
+    ms_procent = 1.92
+    ms_vloga = 700# popravek na 20 ker imama zacetni trejd 1,21
+    
+    
+    
+    """ od 50 do 100 
+    prvi poskus neuspesen
+    ms_pozitivnih = 1
+    ms_trejdov = 6
+    ms_procent = 1.92
+    ms_vloga = 80
+    """
+    
+    """
+    ms_pozitivnih = 1
+    ms_trejdov = 5
+    ms_procent = 1.92
+    ms_vloga = 40
+    
+    ms_pozitivnih = 2
+    ms_trejdov = 7
+    ms_procent = 1.92
+    ms_vloga = 40
+    
+    ms_pozitivnih = 2
+    ms_trejdov = 8
+    ms_procent = 1.92
+    ms_vloga = 100
+    """
+    
+    
+    # to je namenjeno z enim pravilnim
+    if ms_pozitivnih == 1:
+        vplacilo_vloge = vloga_masaniello(ms_pozitivnih,ms_trejdov,ms_procent,ms_vloga)
+        global_value.masaniello_vloge = vplacilo_vloge
+    if labu:
+        vplacilo_vloge = Laubuchere_sistem(15)
+        global_value.laubuchere_vloge = vplacilo_vloge
+    print("\n PRIPRAVA ZA vplacilo_vloge ZACETEK")
+    print("list vplacilnih vlog = ",vplacilo_vloge)
+    print(" PRIPRAVA ZA vplacilo_vloge KONEC \n")
+    #quit(f"IZHOD QUIT!! preverjam funkcijo masaniello")
+    
+    Mmm =MC.Masaniello_MM(ms_pozitivnih,ms_trejdov,ms_procent,ms_vloga)
+    zacetna_banka = ms_vloga
+    print("\nTREJDANJE NI PO PRINCIPU COMPAUNDINGA!!")
+    print("\n\npopravek zacnem z bilanco = ", zacetna_banka)
+    prva_investicija = Mmm.investicija
+    print(f"\nZnesek prve investicije = {prva_investicija:0.2f}")
+    print(f"\nTEST NOVEGA PRISTOPA UPORABE Masaniello vlog >> Znesek prve investicije = {global_value.masaniello_vloge[0]:0.2f}")
+    print(f"\nZnesek seje = {Mmm.cena_seje:0.2f}")
+    #print(f"potrebnih tock je : {Mmm.investicija * 10:0.2f}")
+    dosezeno = None
+    inp = None
+    
+    negativni_trejdi = 0
+    pozitivni_trejdi = 0
+    stetje_trejdov = 0
+    uspesnost_trejdov = []
+    zaporedje_trejdov = []
+    shranjen_izbor = []
+    ma_skupna=[]
+    mas_vloga=[]
+    aktivacija_akcije = False
+    vloga_ma3 = Mmm.investicija
+    if len(global_value.masaniello_vloge) > 0:
+        vloga_ma3 = global_value.masaniello_vloge[0]
+    
+    global_value.vloga.append(vloga_ma3)
+    if labu:
+        global_value.vloga=[]
+        global_value.vloga.append(vplacilo_vloge[0] + vplacilo_vloge[-1])
+        vplacilo_vloge.pop(0)
+        vplacilo_vloge.pop()
+        
+        
+    """ za slepi krog"""
+    #odprt_nadaljevalni_znesek = 0
+    # zacetni_trejd=0
+    slepi_krog = 0
+    # exit()
+    # while krogov < 4:
+    #
+    start = time.perf_counter()
+    polje = []
+    preverjanje_izbora = []
+    ma_izbor=[]
+    izbrana_smer=[]
+    izbor_tri=[]
+    kombinacija_izbor=[]
+    prehod_while = 0
+    trikratnik_smer = "+X+"
+    aktivni_bar = []
+    prejsni_bar =[]
+    minuta =100
+    #zapis={}
+    smer = "ne"
+    
+    
+    """
+    print("dolzina len zgodovine = ",len(global_value.zgodovina_3[Aktivni_par]["zgodovina"]))
+    for i in range(10):
+        stevec = -1*(i+1)
+        print("for:: stevec ",stevec)
+        gv_cas = global_value.zgodovina_3[Aktivni_par]["zgodovina"][stevec][0]
+        gv_cas = datetime.fromtimestamp(gv_cas)
+        print("cas: ",gv_cas)
+        print("minute: ",gv_cas.minute)
+    """
+    #exit("USTAVLJAM TESTIRAM")
+    obracanje_smeri = False # pri vsakem drugem negativnem trejdu zamenja smer
+    preskok = 0 # stevilo pri preskoku pomeni koliko minut se zamakne nov trejd
+    minuta_preskok = 0
+    zaklenjena_smer = 0 # zaklepanje smeri pri tretjem negativnem trejdu
+    
+    
+    print("\n\n\n************************************************* ZAGON WHILE ***********************************************\n ",datetime.now())
+    print("\n")
+    
+    while True:
+        #print("\n************************************************* NOVI KROG ***********************************************\n ",datetime.now())
+        gv_cas = global_value.zgodovina_3[Aktivni_par]["zgodovina"][-1][0]
+        gv_cas_utc = datetime.fromtimestamp(gv_cas,tz=timezone.utc)
+        gv_cas = datetime.fromtimestamp(gv_cas)
+        gv_cena = global_value.zgodovina_3[Aktivni_par]["zgodovina"][-1][1]
+        #zadnja_aktivna_cena = global_value.zgodovina_3[Aktivni_par]["zgodovina"][-1][1]
+        zadnja_aktivna_cena = gv_cena
+    
+        # print(">>##>> TO CENO PRIPENJAM >>zadnja_aktivna_cena = ",zadnja_aktivna_cena," kluc: ",zadnji_izdelan_kluc_minute)
+    
+        zadnja_minuta = datetime.now().minute
+        zadnja_sekunda = datetime.now().second
+        # zadnja_minuta = datetime.fromtimestamp(i[0]).minute
+        # # zadnja_minuta = datetime.fromtimestamp(i[0]).minute
+        if zadnja_minuta != minuta:
+            funkcija_oznacba_prehod()
+            global_value.balance_po_vplacilu = global_value.balance
+            minuta = zadnja_minuta
+            zadnji_izdelan_kluc_minute = f"minuta_{minuta}"
+            #minute[f"minuta_{minuta}"] = []
+            minute[zadnji_izdelan_kluc_minute] = []
+            # izdelava novega kluca
+            #global_value.minute[f"minuta_{minuta}"] = []
+            global_value.minute[zadnji_izdelan_kluc_minute] = []
+            global_value.minute[Aktivni_par].update({zadnji_izdelan_kluc_minute:[]})
+            global_value.zadnji_izdelan_kljuc = zadnji_izdelan_kluc_minute
+            
+            print(f"\n\n ************************************************************************************************ \
+                \n> >IF  v WHILE >> IZDELAN KLJUC: minuta_{minuta} || seja: {global_value.seja} || Par: {Aktivni_par} \
+                \n ***************************************************************************************************\n\n")
+            
+            print("\nGV.balance:: STANJE BANKE: ",global_value.balance)
+            print("\nGV.pred_vplacilom::  STANJE BANKE: ",global_value.balance_pred_vplacilom)
+            print("\nGV.po_vplacilu:: STANJE BANKE: ",global_value.balance_po_vplacilu)
+            print("\n\npreverjam TRIKRATNIK_SMER = ",trikratnik_smer)
+            print("preverjam SMER = ",smer)
+            print("zadnji_izdelan_kluc_minute = ",zadnji_izdelan_kluc_minute)
+            
+            
+            print("\n PREDOGLED>> PODATKI ZA MASANIELO: podatki_za_masaniello = ",podatki_za_masaniello)
+            print("\n PREDOGLED>> TUKAJ BOM NAPISAL  PODATKE rezultat_ma3 = ",rezultat_ma3)
+            #print("\nTUKAJ BOM NAPISAL  PODATKE rezultat_ma3 = len = ",len(rezultat_ma3)) # LEN JE TUKAJ ZMERAJ 2
+            print("\nPREVERJANJE global_value.vloga = ",global_value.vloga)
+            print(f"\n\n (STEVEC: {krog_obrat} ) seja: {global_value.seja}")
+            
+            
+            
+            if labu:
+                print("\n\n ******************************************* \
+                    \n PREVERJANJE REZULTATA TREJDA V NACUNU LABUSHERE \
+                    \n ***********************************************\n\n")
+                print("GV.laubuchere_vloge = ",global_value.laubuchere_vloge)
+                print("rezultat_ma3 = ",rezultat_ma3)
+                print("vloga_ma3 = ",vloga_ma3)
+                print("... preverjam api.check_win...")
+                api_check_win = api.check_win(rezultat_ma3[1]) if rezultat_ma3 else None
+                print("api.check_win(rezultat_ma3[1]) = ",api_check_win)
+                print("\n")
+                if len(rezultat_ma3)> 0 and rezultat_ma3[0]:
+                    povzeto["LABU:: api check_win = (LIST) = ", ] = api_check_win # TUKAJ DOBIM:  (-1.11, 'loose')
+                    povzeto["LABU:: api check_win[0] = ", ] = api_check_win[0]
+                    povzeto["LABU:: api check_win[1] = ", ] = api_check_win[1]
+                    global_value.izzid_trejda = api_check_win[1]
+                    povzeto["LABU:: rezultat_ma3 = "] = rezultat_ma3 # TUKAJ DOBIM: (True, 'cc4d19f6-543c-4ae5-90f6-bbedd9213989')
+                    povzeto["LABU:: list vlog = "] = vplacilo_vloge
+                    print("rezultat_ma3 = ",rezultat_ma3)
+                    if api_check_win[0] == None:
+                        quit("\n\n KONCANJE SKRIPTA IN PROGRAMA \n\n")
+                    #if (api.check_win(rezultat_ma3[1]))[0] > 0: #pozitiven
+                    if api_check_win[0] > 0: # pozitiven
+                        povzeto["LABU::POZITIVNO rezultat_ma3 = "] = rezultat_ma3
+                        print("\nAPI::: POZITIVEN TREJD\n")
+                        
+                        if labu:
+                            #[0] = 1 + api_check_win = 1.01 = 2.01
+                            nov_znesek = vplacilo_vloge[0] + api_check_win[0]
+                            print("TO JE ZNESEK KI SE DODAJA LISTU VLOG: ",round(nov_znesek,2) )
+                            vplacilo_vloge.append(round(nov_znesek,2))
+                            print("LABU::list:: vplacilo_vloge = ",vplacilo_vloge)
+                            vloga_ma3 = vplacilo_vloge[-1]
+                            print("LABU:: nova vloga iz labushere: ", vloga_ma3)
+                            #vplacilo_vloge.pop(0)
+                            #vplacilo_vloge.pop()
+                        krog_obrat=0
+                        povzeto["LABU::trejd je = "] = "POZITIVEN TREJD"
+                        povzeto["LABU::stanje racuna = "] = api.get_balance()
+                        zapis_rezultata(povzeto)
+                        povzeto={}
+                        negativni_trejdi = 0
+                        time.sleep(15)
+                        """
+                        with open("spremljanje.txt","a") as f:
+                            for i in zapis:
+                                f.write(f"\n{i}  {zapis[i]}")
+                                print(f"> {i}  {zapis[i]} ")
+                            f.write(f"\n***\n")
+                            """
+                    #elif (api.check_win(rezultat_ma3[1]))[0] < 0:
+                    elif api_check_win[0] < 0: # negativen
+                        povzeto["LABU::NEGATIVNO rezultat_ma3 = "] = rezultat_ma3
+                        print("\nAPI::: NEGATIVEN TREJD\n")
+                        negativni_trejdi += 1
+                        povzeto["LABU::stanje racuna = "] = api.get_balance()
+                        krog_obrat += 1
+                        povzeto["LABU::trejd je = "] = "NEGATIVEN TREJD"
+                        if labu:
+                            #print("TO JE ZNESEK KI SE DODAJA LISTU VLOG: ",round(api_check_win[0],2) )
+                            #vplacilo_vloge.append(round(api_check_win[0],2))
+                            print("LABU::list:: vplacilo_vloge = ",vplacilo_vloge)
+                            #TUKAJ MORAM ODSTRANITI PRVO IN ZADNJO
+                            n = 1
+                            vplacilo_vloge = vplacilo_vloge[n:-n]
+                            vloga_ma3 = vplacilo_vloge[-1]
+                            print("LABU:: nova vloga iz labushere: ", vloga_ma3)
+                            #vplacilo_vloge.pop(0)
+                            #vplacilo_vloge.pop()
+                        zapis_rezultata(povzeto)
+                        povzeto={}
+                    #elif (api.check_win(rezultat_ma3[1]))[0] == 0:
+                    elif api_check_win[0] == 0: # *nec*
+                        povzeto["LABU::*NEC* rezultat_ma3 = "] = rezultat_ma3
+                        print("\nAPI::: ***NEC*** TREJD\n")
+                        print("tukaj bi morala ostati ista vloga ki je = ", vloga_ma3)
+                        povzeto["LABU::trejd je = "] = "***NEC*** TREJD"
+                        povzeto["LABU::stanje racuna = "] = api.get_balance()
+                        zapis_rezultata(povzeto)
+                        povzeto={}
+                        
+                print("\n\n**************** KONEC ******************\n*************** PREVERJANJE REZULTATA TREJDA V NACUNU LABUSHERE *********\n\n")
+                        
+                        
+            if testiranje_skripta:
+                print("\n\n ******************************************* \
+                    \n PREVERJANJE REZULTATA TREJDA V NACUNU >> TESTIRANJA << \
+                    \n ***********************************************\n\n")
+                if len(rezultat_ma3)> 0 and rezultat_ma3[0]:
+                    print("\n\n... preverjam api.check_win...")
+                    print("... preverjam api.check_win ZA M1... rezultat_ma3 = ",rezultat_ma3)
+                    print("... preverjam api.check_win ZA S30... rezultat_ma3_s30 = ",rezultat_ma3_s30)
+                    api_check_win = api.check_win(rezultat_ma3[1])
+                    #api_check_win_s30 = api.check_win(rezultat_ma3_s30[1])
+                    print("\napi.check_win(rezultat_ma3[1]) = ",api_check_win)
+                    #print("api_check_win_s30 = api.check_win(rezultat_ma3_s30[1]) = ",api_check_win_s30)
+                    povzeto["\napi check_win = ", ] = api_check_win
+                    #povzeto["api check_win_s30 = ", ] = api_check_win_s30
+                    global_value.izzid_trejda = api_check_win[1]
+                    print("rezultat_ma3 = ",rezultat_ma3)
+                    if api_check_win[0] == None:
+                        quit("\n\n KONCANJE SKRIPTA IN PROGRAMA \n\n")
+                    povzeto["rezultat_ma3 = "] = rezultat_ma3
+                    #povzeto["rezultat_ma3_s30 = "] = rezultat_ma3_s30
+                    if (api.check_win(rezultat_ma3[1]))[0] > 0: #pozitiven
+                        print("\nAPI::: POZITIVEN TREJD ", Aktivni_par,"\n")
+                        
+                        if labu:
+                            vplacilo_vloge.append(round(api_check_win[0],2))
+                            #vplacilo_vloge.pop(0)
+                            #vplacilo_vloge.pop()
+                        krog_obrat=0
+                        povzeto["trejd je = "] = "POZITIVEN TREJD"
+                        povzeto["stanje racuna = "] = api.get_balance()
+                        zapis_rezultata(povzeto)
+                        povzeto={}
+                        negativni_trejdi = 0
+                        """
+                        with open("spremljanje.txt","a") as f:
+                            for i in zapis:
+                                f.write(f"\n{i}  {zapis[i]}")
+                                print(f"> {i}  {zapis[i]} ")
+                            f.write(f"\n***\n")
+                            """
+                    elif (api.check_win(rezultat_ma3[1]))[0] < 0:
+                        print("\nAPI::: NEGATIVEN TREJD ",Aktivni_par,"\n")
+                        negativni_trejdi += 1
+                        povzeto["stanje racuna = "] = api.get_balance()
+                        krog_obrat += 1
+                        povzeto["trejd je = "] = f"NEGATIVEN TREJD ({negativni_trejdi}) (novi obrat = {krog_obrat})"
+                        bar1 = ohlc(bars(Aktivni_par),1)
+                        print("================================================ bar1 =====================================")
+                        print(bar1)
+                        povzeto[f"{bar1} = "] = f"{bar1}"
+                        print("================================================ bar1 =====================================\n")
+                        zapis_rezultata(povzeto)
+                        povzeto={}
+                        
+                    elif (api.check_win(rezultat_ma3[1]))[0] == 0:
+                        print("\nAPI::: ***NEC*** TREJD\n")
+                        povzeto["trejd je = "] = "***NEC*** TREJD"
+                        povzeto["stanje racuna = "] = api.get_balance()
+                        zapis_rezultata(povzeto)
+                        povzeto={}
+                print(Aktivni_par,"...PRAZNJENJE:: preverjam api.check_win ZA M1... rezultat_ma3 = ",rezultat_ma3)
+                rezultat_ma3=[]
+                print("...PRAZNJENJE:: preverjam api.check_win ZA S30... rezultat_ma3_s30 = ",rezultat_ma3_s30)     
+                rezultat_ma3_s30=[]
+    
+                 
+            if negativni_trejdi >=3:
+                povzeto["klicem masanielo ="] =f"\n({Aktivni_par})  mesaniello() !!! STEVEC negativnih trejdov: {negativni_trejdi} \nURA: {datetime.now()}\n"
+                #print(f"\n\n\n({Aktivni_par})  mesaniello() !!! STEVEC negativnih trejdov: {negativni_trejdi} \nURA: {datetime.now()} \n\n\n")
+                print(f"\n\n\n({Aktivni_par})  RESET TRIKOTNIK!!! STEVEC negativnih trejdov: {negativni_trejdi} \nURA: {datetime.now()} \n\n\n")
+                global_value.trikotnik_akcija = None
+                global_value.trikotnik_akcija_m5 = None
+                #masaniello()       
+  
+            
+            
+            #if not smer  in "ne" and not labu:
+            if not labu and not testiranje_skripta:
+                print("\n\n ******************************************* \
+                    \n PREVERJANJE REZULTATA TREJDA V NACUNU  !! MASANIELLO !! \
+                    \n ***********************************************\n\n")
+                
+                if len(rezultat_ma3) > 0:# tukaj je len vedno 2 ali je prav ali je narobe!!!!
+                    print("\nZACETEK PREVERJANJA ==== AKTIVNE VLOGE ====  || ZNESEK: vloga_ma3 = ",vloga_ma3," Vplacano: ",rezultat_ma3[0])
+                    print("\nZADNJI POSTAVLJEN TREJD: podatki_za_masaniello = ",podatki_za_masaniello)
+                    print("pred if >> rezultat_ma3 = ",rezultat_ma3)
+                    if not rezultat_ma3[0]: # TO POMENI DA JE FALSE
+                        print("\n====================================================== \
+                            \nPREVERI ZADNJI TREJD, CE SE UJEMA Z CENO AKTIVNE VLOGE\n IN PRIDOBI PODATKE ZA NADALJNE ODLOCANJE!!\
+                            \n==========================================================\n")
+                        time.sleep(1)
+                        trejd_je_odprt = api.get_async_order()
+                        print("\nIZPIS PODATKOV ZADNJEGA TREJDA:\n")
+                        print(trejd_je_odprt)
+                        #print("\nglobal_value.order_closed: ",global_value.order_closed) # to je prazen list
+                        #print("\n")
+                        #print("\napi.get_deals => ",api.get_deals()) # tu je ogromno trejdov ampak za celo uro kasneje
+                        print("zadnji trejd id: ",trejd_je_odprt["deals"][0]["id"])
+                        print("zadnji trejd profit: ",trejd_je_odprt["deals"][0]["profit"])
+                        print("zadnji trejd amount: ",trejd_je_odprt["deals"][0]["amount"])
+                        print("zadnji trejd asset: ",trejd_je_odprt["deals"][0]["asset"])
+                        #print("PRED >>> zadnji trejd id: ",trejd_je_odprt["deals"][1]["id"])
+                        
+                        """ SE ENO PREVERJANJE !!"""
+                        print(f"global_value.balance_pred_vplacilom != global_value.balance_po_vplacilu  >> {global_value.balance_pred_vplacilom != global_value.balance_po_vplacilu}")
+                        if global_value.balance_pred_vplacilom != global_value.balance_po_vplacilu:
+                            print("zneska balance se ne ujemata!!!")
+                            print("\n\n KAR POMENI DA JE BILO VPLACANO AMPAK JE NEKJE NAPAKA MORDA V POVEZAVI \
+                                \n ZATO JE POTREBNO ROCNO VNESTI PODATKE ZA MASANIELLO!!!\n\n")
+                            # podatki_za_masaniello =  (1.0212, 'win')
+                            podatki_za_masaniello[0] = trejd_je_odprt["deals"][0]["profit"]
+                            podatki_za_masaniello[1] = "win" if trejd_je_odprt["deals"][0]["profit"] > 0 else "loose"
+                            print("zadnji zakljucen trejd podatki_za_masaniello : ",podatki_za_masaniello)
+                            print("zadnji zakljucen trejd podatki_za_masaniello[0] profit: ",podatki_za_masaniello[0])
+                        
+                        try:
+                            print("zadnji zakljucen trejd podatki_za_masaniello profit: ",podatki_za_masaniello[0])
+                        except Exception as e:
+                            print("Exception as e = ",e)
+                            print("except:: zadnji zakljucen trejd podatki_za_masaniello profit: ",podatki_za_masaniello)
+                            print("pred if >> rezultat_ma3 = ",rezultat_ma3)
+                            if not rezultat_ma3[0]:
+                                quit("\n\nIZHOD KER NI BILO VPLACANO\n\n")
+                            
+                        print("\n\n************************************ \
+                            \nKONEC PREVERJANJA ZAKLJUCENIH TREJDOV \
+                            \n**************************************\n\n")
+                        
+                    if rezultat_ma3[0]:
+                        podatki_za_masaniello = api.check_win(rezultat_ma3[1])
+                        print("\n*** AKTIVNI *** PODATKI ZA MASANIELO: podatki_za_masaniello = ",podatki_za_masaniello)
+                        if podatki_za_masaniello[1] == "unknown":
+                            print("\n\n*************** ZAKLJUCI IN KONCAJ SKRIPT ZARADI NEVELJAVNIH PODATKOV!!!*******\n\n")
+                            quit("**** quit *****\n\n")
+                        """ *****************  MASANIELLO ZA ma3 *************************"""
+                        if podatki_za_masaniello[0] > 0:
+                            #zmaga
+                            print("\nZMAGA ",datetime.now())
+                            print(f"\ntest izpisa za smer {smer} ki jo dodam k globalni!!\n")
+                            global_value.izzid_trejda = "ZMAGA"
+                            global_value.zadnja_smer_trejda = smer
+                            
+                            print("\n\n************************** PREVERJANJE ****************************\n")
+                            print("ZMAGAL JE ZNESEK = ",podatki_za_masaniello[0])
+                            print(f"Vplacan znesek: {vloga_ma3+0.1:.2f}")
+                            print("nov znesek za trejdanje = ", podatki_za_masaniello[0] + vloga_ma3 +0.1)
+                            investicija = (vloga_ma3 + 0.1) * 1.92
+                            print(f"ALI znesek * 1,92 = {(vloga_ma3 + 0.1) * 1.92:.2f}")
+                            print("\n\n************* K O N E C ************* PREVERJANJE IZRACUNA ****************************\n\n")
+                            print("\n============ Z M A G A ================== >>  >>> Priprava za novi krog: ")
+                            print("Mmm.ponovitev = ",Mmm.ponovitev)
+                            print("\n>>>>> krog_obrat = ",krog_obrat)
+                            # inp = 1 if odgovor[1]== "win" else 0
+                            # ce je rezultat pozitiven bom sesteval profit do dolocene vsote
+                            # nova investicija je znesek ki se je vplacal in znesek ki je bil dobitni
+                            print("VPLACANI ZNESEK: ",vloga_ma3)
+                            print("dodano k vplacenemu znesku = 0.1")
+                            print("zato je vplacani znesek skupaj ",vloga_ma3 + 0.1)
+                            print(f"prva investicija = {prva_investicija} vloga = {vloga_ma3} vplacani znesek skupaj {vloga_ma3 + 0.1}\n\n")
+                            
+                            Mmm.Rezultat(1)
+                            dosezeno = Mmm.NoviKrog()
+                            print("================================= kaj pa investicija je ",dosezeno[1])
+                            print("================================= nova  investicija je ",investicija)
+                            print("\nDOSEZENO izpis = ",dosezeno)
+                            
+                            
+                            povzeto["trejd je = "] = "POZITIVEN TREJD"
+                            povzeto["stanje racuna GV= "] = global_value.balance
+                            povzeto["stanje racuna api= "] = api.get_balance()
+                            print("\n************************** *** K O N E C *** PREVERJANJE ****************************\n\n")
+                            zapis_rezultata(povzeto)
+                            povzeto={}
+                            negativni_trejdi = 0
+                            if dosezeno[0] == 2:
+                                print("\n\n**************==============*********************\n")
+                                print("DOSEZEN USPEH!! RESET ZA PONOVNI KROG!! cas=",datetime.now())
+                                print("\n\n**************==============*********************\n")
+                                #time.sleep(120)
+                                print(("PRED PRAZNJENJEM >> izpis vlog = ",global_value.vloga))
+                                global_value.vloga=[]
+                                global_value.prehod_pristop = "ne"
+                                global_value.prehod_pristop_kombo = "ne"
+                                global_value.prehod_pristop_kombo_hiter = "ne"
+                                
+                                print(("PO PRAZNJENJU >> izpis vlog = ",global_value.vloga))
+                                krog_obrat=0
+                                
+                                print("\n KLICEM FUNKCIJO MASANIELLO!! \n\n")
+                                masaniello()
+                                
+                            vloga_ma3 = dosezeno[1]
+                            if vloga_ma3 < 1:
+                                print("\n\nvloga je manjsa kot 1 ********** klicem masaniello() !! ")
+                                print(("PRED PRAZNJENJEM >> izpis vlog = ",global_value.vloga))
+                                global_value.vloga=[]
+                                print(("PO PRAZNJENJU >> izpis vlog = ",global_value.vloga))
+                                print("\n KLICEM FUNKCIJO MASANIELLO!! \n\n")
+                                krog_obrat=0
+                                masaniello()
+                                
+                        elif podatki_za_masaniello[0] < 0:
+                            #izguba
+                            print("\nporaz ",datetime.now())
+                            print(f"\ntest izpisa za smer {smer} ki jo dodam k globalni!!\n")
+                            global_value.izzid_trejda = "PORAZ"
+                            global_value.zadnja_smer_trejda = smer
+                            negativni_trejdi += 1
+                            print(
+                                "\n========= P O R A Z =====================>>>> Priprava za novi krog: ",
+                                Mmm.ponovitev,
+                            )
+                            # inp = 1 if odgovor[1]== "win" else 0
+                            Mmm.Rezultat(0)
+                            dosezeno = Mmm.NoviKrog()
+                            print(
+                                "\n=================================kaj pa investicija je ",
+                                dosezeno[1],
+                            )
+                            print("DOSEZENO izpis = ",dosezeno)
+                            print("DOSEZENO test dosezeno[0] == 3 = ",dosezeno[0] == 3)
+                            povzeto["stanje racuna = "] = api.get_balance()
+                            print("Stanje racuna: ",povzeto["stanje racuna = "])
+                            print("\nPREVERJANJE ZA NOVO VLOGO IZ GV.masanillo lista = ",global_value.masaniello_vloge[negativni_trejdi])
+                            if povzeto["stanje racuna = "] < dosezeno[1]:
+                                print("TUKAJ USTAVLJAM SKRIPT KER JE STANJE RACUNA MANJSE KOT JE NASLEDNJA VLOGA!!!")
+                                dosezeno[0]=3
+                            krog_obrat += 1
+                            povzeto["trejd je = "] = "NEGATIVEN TREJD"
+                            zapis_rezultata(povzeto)
+                            povzeto={}
+                            if dosezeno[0] == 3:
+                                print("\nZAKLJUCUJEM MASANIELLO!! vloga JE NA NULI!!! \n cas = ",datetime.now())
+                                print("\nZA IZHOD JE UPORABLJEN >> quit <<\n\n")
+                                #break
+                                #print("\nZA IZHOD JE UPORABLJEN >> RETURN <<\n\n")
+                                #return
+                                quit()
+                                
+                            vloga_ma3 = dosezeno[1]
+                            
+                            #krog_obrat += 1
+                            #print("v izgubi POVECAM krog_obrat ZA 1")
+                            
+                            """
+                            print(vloga_ma3," *PRED ** PRESKOK ZA 2 MINUTI CAS: ",datetime.now())
+                            time.sleep(120)
+                            print(vloga_ma3," PRESKOK ZA 2 MINUTI CAS: ",datetime.now())
+                            """
+                        elif podatki_za_masaniello[0] == 0:
+                            # NEC
+                            print("\nNEC ",datetime.now())
+                            #vloga_ma3 
+                            povzeto["trejd je = "] = "***NEC*** TREJD"
+                            povzeto["stanje racuna = "] = api.get_balance()
+                            zapis_rezultata(povzeto)
+                            povzeto={}
+                            
+                        """ ***************** KONEC MASANIELLO ZA ma3 *************************"""
+                        
+                        
+                        print("\n\n*************************************************** \n")
+                        print(f"(STEVEC: {krog_obrat} ) VLOGA ZA MA_3 JE NASTAVLJENA NA ZNESEK: {vloga_ma3:.2f} cas: {datetime.now()} ")
+                        print("\n*************************************************** \n")
+                        
+                        """ ZAPIS ZNESKA V GLAOBAL """
+                        global_value.vloga.append(vloga_ma3)
+                        print(">>>>>>>> vse zapisane vloge : ",global_value.vloga)
+                        
+                        if global_value.vloga[-1] == 0:
+                            print("\n\n\nKONCUJEM Z quit KER JE VLOGA NA NULI!!! !!!\n\n\n")
+                            #break
+                            #print("\n\n\nKONCUJEM Z RETURN KER JE VLOGA NA NULI!!! DA GREM IZ FUNKCIJE TRENUTNO JE RETURN PRAZEN!!!\n\n\n")
+                            #return
+                            quit()
+                            
+                        
+                    else:
+                        print("\n\n\nKONCUJEM  KER JE VLOGA NA NULI!!! DA GREM IZ while loop!!!\n\n\n")
+                        ##break
+                        #print("\n\n\nKONCUJEM Z RETURN KER JE VLOGA NA NULI!!! DA GREM IZ FUNKCIJE TRENUTNO JE RETURN PRAZEN!!!\n\n\n")
+                        #print(f"\n::RETURN:: ZAKLJUCUJEM PODATKI MA_3 SO >FALSE< ({rezultat_ma3})!!! \n cas = {datetime.now()} ")
+                        #return
+                        print(f"\n::quit:: ZAKLJUCUJEM PODATKI MA_3 SO >FALSE< ({rezultat_ma3})!!! \n cas = {datetime.now()} \n\n")
+                        quit()
+            else:
+                if testiranje_skripta:
+                    print("\n TESTIRANJE SKRIPTA ********* NACIN MASANIELLO JE IZKLOPLJEN!!!\n\n")
+                if labu:
+                    print("\nNACIN LABUSHERE *************** NACIN MASANIELLO JE IZKLOPLJEN!!\n\n")
+                    print("LABUSHE VLOGE: ",global_value.laubuchere_vloge)
+         
+                    
+            if api.get_balance() < 1:
+                #print("\n\nif api.get_balance() < 1:\nKONCUJEM Z RETURN KER JE VLOGA NA NULI!!! DA GREM IZ FUNKCIJE TRENUTNO JE RETURN PRAZEN!!!\n\n\n")
+                #print("\n::RETURN:: ZAKLJUCUJEM BANKA JE NA NULI!!! \n cas = ",datetime.now())
+                #return
+                print("\nZAKLJUCUJEM BANKA JE NA NULI!!! \n cas = ",datetime.now(),"\n\n")
+                quit()
+                
+                
+            
+            """****************VAZNO VAZNO VAZNO VAZNO VAZNO****************************************************"""
+            """****************VAZNO VAZNO VAZNO VAZNO VAZNO****************************************************"""
+            
+            """ PREVERJANJE IN PRIMERJAVA V PROCETIH IN NJIHOVA OBNOVA """
+            
+            #aktivni_payout = global_value.pairs[Aktivni_par]["payout"]
+            #print("\n\n==============>>>>> global_value.assets[0] = ",global_value.assets[0])
+            #print("\n")
+            primerjevalni_payout = 0
+            for i in global_value.assets:
+                #print(i)
+                if i[1] == Aktivni_par:
+                    #print(f"\nIZPIS IZ SEZNAMA ASSETS:\n PAR: {Aktivni_par}\n PODATKI: {i}")
+                    #print(f"\nPRIMERJAVA pairs in assets: \npairs-payout: {global_value.pairs[Aktivni_par]["payout"]} \nassets-payout: {i[5]} \n")
+                    primerjevalni_payout = i[5]
+                    
+            print("\n")
+            print("VAZNO "*5)
+            print(f"\n >>>>>>> PAR: {Aktivni_par} <<<<<<<<")
+            print(f"\nIZID PRIMERJAVE pairs= {aktivni_payout} VS assets= {primerjevalni_payout} STA ENAKA {aktivni_payout == primerjevalni_payout} \ncas = {datetime.now()}")
+            print("\n","VAZNO "*5,"\n")
+            
+            """ PREVERJANJE IN PRIMERJAVA V PROCENTIH IN NJIHOVA OBNOVA === KONEC ==="""
+            
+            """
+            # ce je false preveri kaksen je bil zadnji trejd:
+                # - ce je bil negativen
+                # - ce je bil pozitiven
+                # zacni novo z boljsimi procenti!!!
+            """
+            if aktivni_payout != primerjevalni_payout:
+                print(Aktivni_par," ker nista enaka klicem ponovno >> masaniello <<")
+                #novi_par=None
+                for i in global_value.assets:
+                    if  i[14] == True and "_otc" in i[1] and i[5] == 92 and i[3] == "currency":
+                        print(i)
+                        Aktivni_par = i[1]
+                        break
+                    """
+                    PRIMER IZPISA:
+                    [68, 'AUDCHF_otc', 'AUD/CHF OTC', 'currency', 5, 92, 60, 30, 3, 1, 0, 37, [], 1763251200, True, [{'time': 60}, {'time': 120}, {'time': 180}, {'time': 300}, {'time': 600}, {'time': 900}, {'time': 1800}, {'time': 2700}, {'time': 3600}, {'time': 7200}, {'time': 10800}, {'time': 14400}], 0, 3, -1]
+                    [38, 'AUDJPY', 'AUD/JPY', 'currency', 3, 50, 60, 30, 3, 0, 69, 0, [], 1763251200, False, [{'time': 60}, {'time': 120}, {'time': 180}, {'time': 300}, {'time': 600}, {'time': 900}, {'time': 1800}, {'time': 2700}, {'time': 3600}, {'time': 7200}, {'time': 10800}, {'time': 14400}], -1, 60, 1763344800]
+                    [69, 'AUDJPY_otc', 'AUD/JPY OTC', 'currency', 3, 80, 60, 30, 3, 1, 0, 38, [], 1763251200, True, [{'time': 60}, {'time': 120}, {'time': 180}, {'time': 300}, {'time': 600}, {'time': 900}, {'time': 1800}, {'time': 2700}, {'time': 3600}, {'time': 7200}, {'time': 10800}, {'time': 14400}], 0, 3, -1]
+                    """
+                """
+                api.change_symbol(novi_par,60)
+                time.sleep(1)
+                print("\n\nKONCAN IZPISA ASSETS! KLICEM MASANIELLO!!\n\n")
+                quit("ZAENKRAT USTAVLJENO \n\n")
+                masaniello()
+                """
+                    
+                # par = Aktivni_par
+                # menjava =api.change_symbol(Aktivni_par,60)
+                # menjava =api.change_symbol(Aktivni_par,30)
+                #svece = api.get_candles(Aktivni_par, 60)
+                api.get_candles(Aktivni_par, 60)
+                time.sleep(1)
+                print(
+                    f"aktivni par: {Aktivni_par} zapisan:  ",
+                    "JE" if Aktivni_par in global_value.zgodovina_3 else "NI",
+                )
+                global_value.dolzina_kljucev =0
+                if Aktivni_par not in global_value.zgodovina_3:
+                    exit(f"\n============= IZHOD ==============\n NI ZAPISA V ZGODOVINI ZA PAR: {Aktivni_par} ")
+                    quit(f"IZHOD QUIT!!")
+                    
+                    
+                print("kluci v zgodovini ", global_value.zgodovina_3.keys())
+                if Aktivni_par in global_value.zgodovina_3:
+                    if "zgodovina" in global_value.zgodovina_3[Aktivni_par]:
+                        print("\n\n *******drugic********** POGOJI SO IZPOLNJENI  *********drugic********* \n")
+                        print(" par je v zgodovini 3 in zgodovina je zapisana!!!!\n")
+                        
+                """ RESETIRANJE DOLOCENIH PODATKOV ZARADI ZAMENJAVE PARA !!! """
+                global_value.minute[Aktivni_par]=bars(Aktivni_par)
+                global_value.trikotnik_akcija = None
+                global_value.trikotnik_akcija_m5 = None
+            
+            """****************VAZNO VAZNO VAZNO VAZNO VAZNO****************************************************"""
+            
+        minute[zadnji_izdelan_kluc_minute].append(zadnja_aktivna_cena)
+        try:
+            global_value.minute[Aktivni_par][zadnji_izdelan_kluc_minute].append(zadnja_aktivna_cena)
+        except Exception as e:
+            print(f"\ntry blok::: napaka: {e} pri global_value.minute[Aktivni_par]\n")
+    
+        time.sleep(1)
+        
+        
+        # TUKAJ MORAM POSKUSITI Z MA_3
+        
+        """
+        # tukaj se dogajajo aktivne stvari 
+        print("TO JE AKTIVNI DEL PROCESA IN LAHKO IZPISUJEM TUDI CAS IN CENO")
+        print(f"cas {gv_cas} cena = {gv_cena}")
+        #> primer izpisa
+        #> cas 2025-10-16 11:47:11.568000 cena = 0.9432
+        #> TO JE AKTIVNI DEL PROCESA IN LAHKO IZPISUJEM TUDI CAS IN CENO
+        #> cas 2025-10-16 11:47:12.553000 cena = 0.94313
+        
+        """
+        
+            
+            
+            
+        if datetime.now().second > 57 and datetime.now().second < 59:
+            print(f"\n\n*******************************************************\
+                    \n *** ZADNJA SEKUNDA ({datetime.now().second}) ***\
+                    \n*********************************************************\n\n")
+            MA3 = moving_average(bars(Aktivni_par), 3)
+            print(MA3)
+            T3,D3,P3 = MA3[-3:]
+            ma3_vrh = P3 < D3 and D3 > T3 and T3 > P3
+            ma3_dno = P3 > D3 and D3 < T3 and T3 < P3
+            #global_value.ma3_vrh_dno = "ne"
+            #global_value.ma3_vrh_dno = 0
+            if ma3_vrh:
+                #global_value.ma3_vrh_dno = "put"
+                global_value.ma3_vrh_dno = -1
+            if ma3_dno:
+                #global_value.ma3_vrh_dno = "call"
+                global_value.ma3_vrh_dno = 1
+                
+            povzeto["\nSTARA MINUTA GV.ma3_vrh_dno = "] = f"GV.ma3_vrh_dno = {global_value.ma3_vrh_dno}"
+            print(f"\n******************* STARA MINUTA ***************\nGV.ma3_vrh_dno = {global_value.ma3_vrh_dno}\n\n")
+                
+        if datetime.now().second > 0 and datetime.now().second < 2:
+        #if datetime.now().second > 1 and datetime.now().second < 3:
+        #if datetime.now().second > 1 and datetime.now().second < 3:
+        #if datetime.now().second > 4 and datetime.now().second < 6:
+            if labu:
+                print("GV.laubuchere_vloge: ",global_value.laubuchere_vloge)
+            
+            funkcija_oznacba_prehod("========= O D L O C A N J E =========")
+            print(f"\n============= O D L O C A N J E =============<=============================\n\n SEKUNDA = 1 =>> ({datetime.now().second}) \npar={Aktivni_par}\n")
+            print("\n============= O D L O C A N J E ==========================================\n\n\n")
+            sekunde: int = int(datetime.now().second)
+            razlika_do_konce_minute: int = 60 - sekunde
+            print("TRENUTNO JE SEKUND: ",sekunde ," razlika do 60 = ",razlika_do_konce_minute)
+            """
+            BAR_2 = list(bars(Aktivni_par).keys())[-2]
+            print("\nBAR 2 list\n",bars(Aktivni_par)[BAR_2])
+            """
+            dolzina_kljucev:int = len(global_value.minute[Aktivni_par].keys())
+            print("\nglobal_value.minute kljuci len = ",dolzina_kljucev)
+            
+            if global_value.dolzina_kljucev != dolzina_kljucev:
+                print("preverjanje dolzine lista novih kljucev:")
+                print("v if:: dolzina_kljucev = ",dolzina_kljucev)
+                print("v if:: GV.dolzina_kljucev = ",global_value.dolzina_kljucev)
+                global_value.dolzina_kljucev = dolzina_kljucev
+            else:
+                print("\n\n !!!!! DOLZINA KLJUCEV JE ENAKA !!!! \n\n")
+                print("v if:: dolzina_kljucev = ",dolzina_kljucev)
+                print("v if:: GV.dolzina_kljucev = ",global_value.dolzina_kljucev)
+                print("\n\n****************************************\
+                    \nCena se ni spremenila od prejsnega kroga!!! \
+                    \n *******************************************\n")
+                print("ura: ",datetime.now())
+                print("\n\nnekaj je narobe USTAVLJAM Z api.Stop() **QUIT()\n\n")
+                api.Stop()
+                quit()
+            
+            bar5 = ohlc(bars(Aktivni_par),5)
+            bar4 = ohlc(bars(Aktivni_par),4)
+            bar3 = ohlc(bars(Aktivni_par),3)
+            bar2 = ohlc(bars(Aktivni_par),2)
+            bar1 = ohlc(bars(Aktivni_par),1)
+            bar0 = ohlc(bars(Aktivni_par),0)
+
+            
+            print("\n test ma 2 \n")
+            MA2 = moving_average(bars(Aktivni_par), 2)
+            print(MA2)
+            print("MA2[-1] = ",MA2[-1])
+            print("\n test ma 2 \n")
+            
+            print("\n test ma 3 \n")
+            MA3 = moving_average(bars(Aktivni_par), 3)
+            print(MA3)
+            print("MA3[-1] = ",MA3[-1])
+            print("\n test ma 3 \n")
+            
+            print("\n test ma 5 \n")
+            MA5 = moving_average(bars(Aktivni_par), 5)
+            print(MA5)
+            print("MA5[-1] = ",MA5[-1])
+            print("\n test ma 5 \n")
+            
+            print("\n test ma **7** \n")
+            MA7 = moving_average(bars(Aktivni_par), 7)
+            print(MA7)
+            print("ma7[-1] = ",MA7[-1])
+            print("\n test ma **7** \n")
+            
+            print(f"*****************====smer MA2 IN MA7 ======= {Aktivni_par} =========****************\n")
+            global_value.ma2_ma7_smer = "call" if MA2[-2] > MA7[-1] else "put"
+            print(" **  G O R  ** " if MA2[-2] > MA7[-1] else " ** D O L ** ")
+            print("\n****************====smer MA2 IN MA7 ================****************\n")
+            
+            print("\n test ma ** 8 ** \n")
+            MA8 = moving_average(bars(Aktivni_par),8)
+            print(MA8)
+            print("ma8[-1] = ",MA8[-1])
+            print("\n test ma ** 8 ** \n")
+            
+            print("\n test ma ** 10 ** \n")
+            MA10 = moving_average(bars(Aktivni_par),10)
+            print(MA10)
+            print("ma10[-1] = ",MA10[-1])
+            print("\n test ma ** 10 ** \n")
+            #povzeto["MA10 = "]= f"\nMA10 {'GRE DOL' if MA10[-1] < MA10[-2] else 'gre  GOR'}"
+            
+            
+            print(f"\n************* zacetek izbora ************\n*********>>>> {Aktivni_par} <<<<************\n")
+            povzeto["\n************* zacetek izbora ************ ="] = f"\n************* zacetek izbora ************ \
+            ************************>>>> {Aktivni_par} <<<<***********************\n"
+            
+            
+            funkcija_oznacba_prehod()
+            """ ************************** FRAKTAL  ************************************"""
+            if bar3["h"] < bar2["h"] > bar1["h"]:
+                # fraktal za prodajo
+                povzeto["FRAKTAL = "] = f"\n{Aktivni_par} ** prodaj ** (b3){bar3["h"]} < (b2){bar2["h"]} > (b1){bar1["h"]} bar0 open = {bar0['o']} cas: {datetime.now()} \n"
+                print(povzeto["FRAKTAL = "])
+                povzeto["AKTIVNI_FRAKTAL_hiter = "] = "put"
+                global_value.aktivni_fraktal_hiter = "put"
+            if bar3["l"] > bar2["l"] < bar1["l"]:
+                # fraktal za nakup
+                povzeto["FRAKTAL = "] = f"\n{Aktivni_par} ** kupi ** (b3){bar3["l"]} > (b2){bar2["l"]} < (b1){bar1["l"]} bar0 open = {bar0['o']}  cas: {datetime.now()} \n"
+                print(povzeto["FRAKTAL = "])
+                povzeto["AKTIVNI_FRAKTAL_hiter = "] = "call"
+                global_value.aktivni_fraktal_hiter = "call"
+                
+            if bar5["h"] < bar3["h"] and bar4["h"] < bar3["h"] > bar2["h"] and bar3["h"] > bar1["h"]:
+                povzeto["AKTIVNI_FRAKTAL pocasen = "] = "put"
+                global_value.aktivni_fraktal = "put"
+                global_value.fraktal_cena = bar3["h"]
+                global_value.fraktal_cena_put = bar3["h"]
+                #global_value.fraktal_cena_call = -1
+                global_value.fraktal_dict = {"cena":bar3["h"],"call":-1,"put":bar3["h"]}
+            if bar5["l"] > bar3["l"] and bar4["l"] > bar3["l"] <  bar2["l"] and bar3["l"] < bar1["l"]:
+                global_value.aktivni_fraktal = "call"
+                global_value.fraktal_cena_call = bar3["l"]
+                global_value.fraktal_cena = bar3["l"]
+                #global_value.fraktal_cena_put = -1
+                global_value.fraktal_dict = {"cena":bar3["l"],"call":bar3["l"],"put":-1}
+                povzeto["AKTIVNI_FRAKTAL pocasen = "] = "call"
+                
+                
+                
+            """
+            ## NOV PRISTOP: prehod med MA10 IN MA2 IN MA3
+            # MA2 IN MA3 sta nad MA10 je pogoj za nakupe in velja ob prehodu dokler ni uspesen zadetek
+            # MA2 IN MA3 sta pod MA10 je pogoj za prodajo in velja ob prehodu dokler ni uspesen zadetek
+            # po dosezenem zadetku se resetira pogoj do nadaljnega izpolnjenega dogotka
+               # ##prehod_pristop
+            """
+            
+            prehod_pristop = "ne"
+            prehod_pristop_rdeca = "ne"
+            prehod_kombo = "ne"
+            # prehod 
+            if MA2[-2] > MA10[-2] and MA3[-2] > MA10[-2] and MA2[-3] < MA10[-3] and MA3[-3] < MA10[-3]:
+                #prehod gor in pogoj za nakup<
+                prehod_pristop = "call"
+                global_value.prehod_pristop = prehod_pristop
+            if MA2[-2] < MA10[-2] and MA3[-2] < MA10[-2] and MA2[-3] > MA10[-3] and MA3[-3] > MA10[-3]:
+                #prehod dol in pogoj za prodajo
+                prehod_pristop = "put"
+                global_value.prehod_pristop = prehod_pristop
+            
+            # stanje
+            if MA10[-2] > MA7[-1]:
+                prehod_pristop_rdeca = "put"
+            if MA10[-2] < MA7[-1]:
+                prehod_pristop_rdeca = "call"
+                
+            # prehod svece cez MA10
+            # # to je BULL prehod
+            if MA10[-2] > bar2["o"] and MA10[-2] < bar2["c"]:
+                pass
+            # # to je BEAR prehod
+            if MA10[-2] < bar2["o"] and MA10[-2] > bar2["c"]:
+                pass
+            
+            # kombinacija
+            #if prehod_pristop_rdeca == "call" and MA2[-2] > MA10[-2] and MA2[-1] > MA7[-1] and bar1["s"] == "BEAR":
+            if prehod_pristop_rdeca == "call" and MA2[-2] > MA10[-2] and MA2[-1] > MA7[-1] and MA2[-2] > MA3[-2]:
+                prehod_kombo = "call"
+                global_value.prehod_pristop_kombo = prehod_kombo
+            #if prehod_pristop_rdeca == "put" and MA2[-2] < MA10[-2] and MA2[-1] < MA7[-1] and bar1["s"] == "BULL":
+            if prehod_pristop_rdeca == "put" and MA2[-2] < MA10[-2] and MA2[-1] < MA7[-1] and MA2[-2] < MA3[-2]:
+                prehod_kombo = "put"
+                global_value.prehod_pristop_kombo = prehod_kombo
+                
+                
+            if MA2[-3] > MA3[-3] and MA2[-2] > MA3[-2]:
+                # kupi
+                global_value.prehod_pristop_kombo_hiter = "call"
+                #pass
+            elif MA2[-3] < MA3[-3] and MA2[-2] < MA3[-2]:
+                # prodaj
+                global_value.prehod_pristop_kombo_hiter = "put"
+                #pass
+                #else:
+                #global_value.prehod_pristop_kombo_hiter = "ne"
+                
+                
+            """ TRIKOTNIK  -3 JE SPODAJ KAZE NA PRODAJNO CENO POD CLOSE(OPEN)"""    
+            if MA2[-4] > MA2[-3] and MA2[-3] < MA2[-2] and MA2[-2] < MA2[-1]:
+                # tukaj je spodnji lov se pravi cena za prodajo ki je spodnja cena ce je bar sell potem je close drugace je open
+                global_value.prehod_pristop_trikotnik = "call"
+                #pass
+            """ TRIKOTNIK  -3 JE ZGORAJ KAZE NA NAKUPNO CENO NAD CLOSE(OPEN)"""    
+            if MA2[-4] < MA2[-3] and MA2[-3] > MA2[-2] and MA2[-2] > MA2[-1]:
+                # tukaj je zgoraj high se pravi cena za nakup nad ki je zgornja cena ce je bar buy potem je close drugace je open
+                global_value.prehod_pristop_trikotnik = "put"
+                #pass
+                
+            if negativni_trejdi < 2:
+                povzeto["call 2X :: dodaj k vlogi in negativni trejdi = "]=f"negativni trejdi = {negativni_trejdi}"
+                dodaj_k_vlogi = 1
+                
+                
+            if negativni_trejdi >= 2:
+                smer = global_value.zadnja_smer_trejda
+                # obrat smeri
+                #smer = "call" if smer == "put" else "put"
+                povzeto["zadrzi smer trejda = "]=f"negativni trejdi = {negativni_trejdi} smer aktivna = {smer} prejsna smeer = {global_value.zadnja_smer_trejda}"
+            else:
+                # smer zadnjega trejda
+                global_value.zadnja_smer_trejda = smer
+                
+                
+            try:
+                print("FRAKTAL = " , povzeto["FRAKTAL = "])
+                print("AKTIVNI_FRAKTAL = " , povzeto["AKTIVNI_FRAKTAL = "])
+                print("AKTIVNI_FRAKTAL pocasen = " , povzeto["AKTIVNI_FRAKTAL pocasen = "])
+            except Exception as e:
+                print("\nFRAKTAL TRENUTNO NI DOSEGLJIV \nException as e: ",e)
+            
+            print("\nglobal_value.aktivni_fraktal  = ",global_value.aktivni_fraktal)
+            print("\nglobal_value.aktivni_fraktal_hiter  = ",global_value.aktivni_fraktal_hiter)
+            povzeto["\nFRAKTALA = "] = f"FRAKTAL AKTIVEN {global_value.aktivni_fraktal} in HITER {global_value.aktivni_fraktal_hiter}"
+            
+            if global_value.aktivni_fraktal == "call":
+                smer = "call"
+                print("\nIZBIRA PO FRAKTALU!! call")
+            if global_value.aktivni_fraktal == "put":
+                smer = "put"
+                print("\nIZBIRA PO FRAKTALU!! put")
+                
+            if global_value.aktivni_fraktal_hiter != "ne":
+                smer = global_value.aktivni_fraktal_hiter
+                print("\nIZBIRA PO *HITREM* FRAKTALU!! ",smer)
+                
+                
+            
+                    
+            """ ce je fraktal buy potem mora biti close bar 1 nad ma10-1"""
+            smer_frac = "ne"
+            if smer == "call":
+                print(f"FRAKTAL SMER = {smer} bar 1 close je nad ma10-2 => {'je nad ma10' if bar1['c'] > MA10[-2] else 'je pod ma10'}")
+                # TUKAJ CE JE close pod ma10 potem zamenjaj smer ???
+                print("NOVA SMER!! PREVERI VELJAVNOST TE SPREMEMBE")
+                print('je nad ma10 OSTANE ISTA SMER >call<' if bar1['c'] > MA10[-2] else 'je pod ma10 SPREMENI SMER IZ *CALL* V >put<')
+                smer_frac = 'call' if bar1['c'] > MA10[-2] else "put"
+                #global_value.aktivni_fraktal = 'call' if bar1['c'] > MA10[-2] else "put"
+                
+            if smer == "put":
+                print(f"FRAKTAL SMER = {smer} bar 1 close je pod ma10-2 => {'je nad ma10' if bar1['c'] > MA10[-2] else 'je pod ma10'}")
+                # FRAKTAL SMER = put bar 1 close je pod ma10-1 => je nad ma10
+                # se pravi ce je put in je close nad POTEM ZAMENJAJ SMER!!!
+                print('je nad ma10 SPREMENI SMER IZ *put* v >call<' if bar1['c'] > MA10[-2] else 'je pod ma10 OSTANE ISTA SMER >put<')
+                smer_frac = 'call' if bar1['c'] > MA10[-2] else "put"
+                #global_value.aktivni_fraktal = 'call' if bar1['c'] > MA10[-2] else "put"
+                
+            povzeto["\nSMER_FRAC = "] =f"smer_frac = {smer_frac}" 
+            
+            """
+            ma2-1 je pod ma5-1 in fraktal je put potem prodaj
+            in dokler je fraktal put prodajaj
+            in obratno!!
+            """
+            # BEAR, BULL
+            smer = "call" if bar0["s"] == "BULL" else "put"
+            povzeto["\n(2)SVECA predPREDZADNJA = "] = f'predPREDZADNJA SVECA JE = { "BULL" if bar2["s"] == "BULL" else "BEAR"} '
+            povzeto["(1)SVECA PREDZADNJA = "] = f'PREDZADNJA SVECA JE = { "BULL" if bar1["s"] == "BULL" else "BEAR"} '
+            povzeto["(0)SVECA PRVA = "] = f'PRVA SVECA JE = { "BULL" if bar0["s"] == "BULL" else "BEAR"} '
+            povzeto["SVECA STA ENAKI = "] = f'STA ENAKI? = {"JA (TRUE)" if bar1["s"] == bar0["s"] else "NE (FALSE)"} '
+            smer = "call" if bar1["s"] == "BULL" and bar0["s"] == "BULL" else "put"
+            
+            """
+            smer = "call" if bar1["s"] == "BULL" and bar0["s"] == "BULL" else "ne"
+            if smer == "ne":
+                smer = "put" if bar1["s"] == "BEAR" and bar0["s"] == "BEAR" else "ne"
+            if smer == "ne":
+                smer = "call" if MA7[-2] > MA8[-2]  and MA2[-2] > MA8[-2] else "ne"
+            if smer == "ne":
+                smer = "put" if MA7[-2] < MA8[-2]  and MA2[-2] < MA8[-2] else "ne"
+                
+            povzeto["4 x izbor = "] = f'\n {"call" if bar1["s"] == "BULL" and bar0["s"] == "BULL" else "ne"} \
+            \n {"put" if bar1["s"] == "BEAR" and bar0["s"] == "BEAR" else "ne"} \
+            \n {"call" if MA7[-2] > MA8[-2]  and MA2[-2] > MA8[-2] else "ne"} \
+            \n {"put" if MA7[-2] < MA8[-2]  and MA2[-2] < MA8[-2] else "ne"} \n'
+                """
+                
+            """
+            test_smer_ma78 = "call (gor)" if MA7[-2] > MA8[-2] else "put (dol)"
+            povzeto["ma78 smer in odprto "] =f'\nsmer rdece in modre (MA7in8) = {test_smer_ma78} \
+            \nodprto pod bar-2 low = {"prodaj" if bar2["l"] > bar0["o"] else "cakaj"} \
+            \nodprto nad bar-2 high = {"kupi" if bar2["h"] < bar0["o"] else "cakaj"}\n'
+            test_high_low = "cakaj" 
+            if bar2["l"] > bar0["o"]:
+                test_high_low = "prodaj" 
+            elif bar2["h"] < bar0["o"]:
+                test_high_low = "kupi" 
+            
+            """
+                
+                
+            """
+            
+            povzeto["pokrivanje kupi = "] = f'bar2   {"je POKRIT in pogoj za KUPIT" if bar2["h"] < bar1["h"] and bar2["l"] > bar1["l"] and bar2["l"] > bar1["c"] else "NI IZPOLNJEN POGOJ"}'
+            #povzeto["pokrivanje kupi = "] = f'bar2   {"je POKRIT in pogoj za KUPIT" if bar2["h"] < bar1["h"] and bar2["l"] > bar1["l"] and bar2["l"] > bar1["c"] else "NI IZPOLNJEN POGOJ"}'
+                
+            povzeto["SVECA POSTAVLJENA SMER = "] = f"ZADNJA POSTAVJENA SMER S PRVO SVECO KI DOLOCA SMER ?<?? IZBOR = {smer} GV.fraktal = {global_value.aktivni_fraktal}"
+            povzeto["izbor POSTAVLJENA SMER = "] = f"izbor smeri dobim ??? IZBOR = {smer} "
+            povzeto["KOMBINACIJA = "] = f" kombinacja: Frac: {global_value.aktivni_fraktal} Sv1: {bar1['s']} Sv0 = {bar0['s']} || Izbor smeri = {smer}"
+            print(povzeto["(1)SVECA PREDZADNJA = "])
+            print(povzeto["SVECA STA ENAKI = "])
+            print(povzeto["SVECA POSTAVLJENA SMER = "])
+            print("\n",povzeto["KOMBINACIJA = "])
+            
+            #smer = global_value.aktivni_fraktal
+            #print("\n\n fraktal PRIMERJAM ZADNJO POSATAVLJENO SMER = ",smer)
+            print("\n\n sveca PRIMERJAM ZADNJO POSATAVLJENO SMER = ",smer)
+            print("rabim podatek caz izteka! razlika do konca izteka minute je = ",razlika_do_konce_minute)
+            print("primer Ma2 1,2,3 ce je 1 vecaj od 3 kupi ce je manjsa prodaj rezultat:  ","KUPI" if MA2[-2] > MA2[-4] else "PRODAJ")
+            print("\nrazlika med ma2-1 in -3 oziroma -2 in -4 razlika je = ",MA2[-2] - MA2[-4])
+            print(f"\nprimerjaj tudi z ma7 in ma8...{"call (gor)" if MA7[-2] > MA8[-2] else "put (dol)"} razlika med njima je = {(MA7[-2] - MA8[-2]):.6f} \n")
+            povzeto["RAZLIKA MA2-2 in -4 = "] = f'razlika = {(MA2[-2] - MA2[-4]):.6f}  (-2)= {MA2[-2]} (-4) = {MA2[-4]} \n sveca-4 open = {bar4["o"]} close = {bar4["c"]} \n|| smer m2-2 in-4 = {"KUPI" if MA2[-2] > MA2[-4] else "PRODAJ"}'
+            povzeto["BAR0 ODPRTO = "] = f"bar0 open = {bar0['o']} || bar1 close = {bar1['c']}"
+            """
+            
+            """ PREHOD MED MA10 IN MA7 """
+            if MA10[-1] > MA7[-1] and MA10[-2] < MA7[-2]: # TO POMENI PREHOD DOL
+                global_value.prehod_ma10_ma7_12 = "put"
+            if MA10[-1] < MA7[-1] and MA10[-2] > MA7[-2]: # TO POMENI PREHOD GOR
+                global_value.prehod_ma10_ma7_12 = "call"
+            if MA10[-2] > MA7[-2] and MA10[-3] < MA7[-3]: # TO POMENI PREHOD DOL
+                global_value.prehod_ma10_ma7_23 = "put"
+            if MA10[-2] < MA7[-2] and MA10[-3] > MA7[-3]: # TO POMENI PREHOD GOR
+                global_value.prehod_ma10_ma7_23 = "call"
+                
+            """ kombinacije svec """
+            """
+            smer_test = "izbor??"
+            if bar2["s"] == "BULL" and bar1["s"] == "BULL":
+                smer_test = "call || bull bull" 
+            elif bar2["s"] == "BEAR" and bar1["s"] == "BEAR":
+                smer_test = "put || bear bear"
+            elif bar2["s"] == "BEAR" and bar1["s"] == "BULL":
+                smer_test = "call || bear bull" 
+            elif bar2["s"] == "BULL" and bar1["s"] == "BEAR":
+                smer_test = "put || bull bear"
+                
+            povzeto["KOMBINACIJA DVEH SVEC = "] =f"kombinacija dveh svec in smer = {smer_test}"
+            print(povzeto["KOMBINACIJA DVEH SVEC = "])
+            """
+            
+            
+            """
+            
+            smer = smer_test.split(" ")[0]
+            povzeto["testiram smer_test = "] = f"\n\n testiram kombinacijo dveh svec \n izbor za  POSATAVLJENO SMER = {smer_test} (smer = {smer})"
+            
+            smer = test_smer_ma78.split(" ")[0]
+            povzeto["testiram test_smer_ma78 = "] = f"\n\n testiram smer z ma7 in 8 \n izbor za  POSATAVLJENO SMER = {test_smer_ma78} (smer = {smer})"
+            #test_high_low
+            
+            smer = smer_frac
+            povzeto["testiram test_smer_fractal = "] = f"\n\n testi<ram smer z fractalom \
+            \n izbor za  POSATAVLJENO SMER = {smer_frac} (smer = {smer})\
+            \n GV.fraktal_dict {global_value.fraktal_dict} \
+            \n fraktal cena zgoraj = {global_value.fraktal_cena_put} je open bar0 nad {'TRUE' if bar0['o'] > global_value.fraktal_cena_put and global_value.fraktal_cena_put != -1 else 'FALSE'}\
+            \n fraktal cena spodaj = {global_value.fraktal_cena_call} je open bar0 pod {'TRUE' if bar0['o'] < global_value.fraktal_cena_call and global_value.fraktal_cena_call != -1 else 'FALSE'}\
+            \n"
+            """
+            
+            
+            """                                                
+            smer_ma2_3_1 = 'call' if MA2[-1] > MA3[-1] else 'put'
+            smer_ma2_3_2 = 'call' if MA2[-2] > MA3[-2] else 'put'
+            izbor_ma2_3 = smer_ma2_3_1 if smer_ma2_3_2 == smer_ma2_3_1 else "ne"
+            smer = izbor_ma2_3
+            povzeto["testiram test_smer_izbor_ma2_3 = "] = f"\n\n------- AKTIVNO -------\n\n testiram smer z izbor_ma2_3 \
+                                                            \n izbor za  POSTAVLJENO SMER = {izbor_ma2_3} (smer = {smer})\
+                                                            \n prehod ma10 in ma7_12 = {global_value.prehod_ma10_ma7_12} \
+                                                            \n prehod ma10 in ma7_23 = {global_value.prehod_ma10_ma7_23} \
+                                                            \n GV.ma2_ma7_smer je izbor = {global_value.ma2_ma7_smer} \
+                                                            \n GV.fraktal_dict == {global_value.fraktal_dict} \
+                                                            \n\n------- AKTIVNO konec -------\n\n"
+            """
+                                                            
+            """ AKTIVNO """
+            """
+            smer = global_value.prehod_pristop
+            smer = global_value.prehod_pristop_kombo
+            povzeto["PREHOD NOV PRISTOP = "] = f"\n\n------- AKTIVNO -------{Aktivni_par}\n\n testiram smer z GV.prehod_pristop \
+                                                            \n izbor za  POSTAVLJENO SMER prehod_pristop = {global_value.prehod_pristop} (smer = {smer})\
+                                                            \n izbor za  POSTAVLJENO SMER prehod_pristop_kombo = {global_value.prehod_pristop_kombo} \
+                                                            \n prehod_pristop = {prehod_pristop}\
+                                                            \n smer oziroma pozicija rdece glede na modro = {prehod_pristop_rdeca} \
+                                                            \n\n------- AKTIVNO konec ------- {datetime.now()}\n\n"
+            
+            smer = global_value.prehod_pristop_kombo_hiter
+            """
+            # print(" call" if sestevek > 0 else " put" if sestevek < 0 else " ne")
+            # print("test = ", 1 if beseda == "call" else -1 if beseda == "put" else 0)
+            """
+            nov_pristop = [ 
+                1 if global_value.prehod_pristop_kombo == "call" else -1 ,
+                1 if global_value.prehod_pristop_kombo_hiter == "call" else -1,
+                1 if global_value.prehod_pristop_trikotnik == "call" else -1,
+                1 if prehod_pristop_rdeca == "call" else -1
+            ]
+            """
+            """ popravek zgornjega z ternary"""
+            nov_pristop = [ 
+                1 if global_value.prehod_pristop_kombo == "call" else -1 if global_value.prehod_pristop_kombo == "put" else 0,
+                1 if global_value.prehod_pristop_kombo_hiter == "call" else -1 if global_value.prehod_pristop_kombo_hiter == "put" else 0,
+                1 if global_value.prehod_pristop_trikotnik == "call" else -1 if global_value.prehod_pristop_trikotnik == "put" else 0,
+                1 if prehod_pristop_rdeca == "call" else -1 if prehod_pristop_rdeca == "put" else 0
+            ]
+            povzeto["PREHOD NOV PRISTOP hiter = "] = f"\n\n------- AKTIVNO -------{Aktivni_par}\n\n testiram smer z GV.prehod_pristop_hiter \
+                                                            \n prehod_pristop = {prehod_pristop}\
+                                                            \n izbor za  POSTAVLJENO SMER prehod_pristop_hiter = {global_value.prehod_pristop_kombo_hiter} (smer = {smer})\
+                                                            \n izbor za  POSTAVLJENO SMER prehod_pristop_kombo = {global_value.prehod_pristop_kombo} \
+                                                            \n izbor za  POSTAVLJENO SMER prehod_pristop_TRIKOTNIK= {global_value.prehod_pristop_trikotnik} \
+                                                            \n smer oziroma pozicija rdece glede na modro = {prehod_pristop_rdeca} \
+                                                            \n NOV PRISTOP = LIST = {nov_pristop} sum: {sum(nov_pristop)} \
+                                                            \n\n------- AKTIVNO konec ------- {datetime.now()}\n\n"
+                                                            
+            # NOV PRISTOP = LIST = [1, -1, 1, 1] sum: 2        
+            sestevek = sum(nov_pristop)
+            smer = "call" if sestevek > 0 else "put"
+            
+            """ zacasna pozicija """
+            
+            T10,D10,P10 = MA10[-3:]
+            D7,P7 = MA7[-2:]
+            D5,P5 = MA5[-2:]
+            T3,D3,P3 = MA3[-3:]
+            T2,D2,P2 = MA2[-3:]
+            ma2_vrh = P2 < D2 and D2 > T2 
+            ma2_dno = P2 > D2 and D2 < T2 
+            ma3_vrh = P3 < D3 and D3 > T3 
+            ma3_dno = P3 > D3 and D3 < T3 
+            pehod_dol_ma2_ma3 = T2 > T3 and D2 < D3
+            pehod_gor_ma2_ma3 = T2 < T3 and D2 > D3
+            prehod_1_gor_ma2_ma3 = P2 > P3 and D2 < D3
+            prehod_1_dol_ma2_ma3 = P2 < P3 and D2 > D3
+            prehod_ma3_dol_ma10 = P10 > P3 and T10 < T3
+            prehod_ma3_gor_ma10 = P10 < P3 and T10 > T3
+            
+            """
+            # se pravi ce je ma2_vrh true potem bi moral biti tudi ma3_dno true, ce je tako bi moral biti prehod med ma2 in ma3 
+            # in to bi pomenila prodajo
+            """
+            se_en_pristop_smer = [
+                1 if D10 < P10 else -1 if D10 > P10 else 0,
+                1 if D7 < P7 else -1 if D7 > P7 else 0,
+                1 if D5 < P5 else -1 if D5 > P5 else 0,
+                1 if D3 < P3 else -1 if D3 > P3 else 0,
+                1 if D2 < P2 else -1 if D2 > P2 else 0,
+            ]
+            se_en_sestevek = sum(se_en_pristop_smer)
+            """ konec zacasne pozicije """
+            
+            se_ena_smer = ternery(se_en_sestevek)
+            smer = ternery(sestevek) #f ZA PRIMER> ternery = lambda sestevek : " call" if sestevek > 0 else " put" if sestevek < 0 else " ne"
+            ma3_in_ma10 = 'ZGORAJ STA' if MA3[-1] > MA10[-1] and MA3[-2] > MA10[-1] else 'SPODAJ STA' if MA3[-1] < MA10[-1] and MA3[-2] < MA10[-1] else "NI TREJDA"
+            povzeto["NOV PRISTOP LIST = "] = f"\n\n------- AKTIVNO -------{Aktivni_par}\n\n testiram smer in znesek\
+                                                \n NOV PRISTOP = LIST = {nov_pristop} sum: {sum(nov_pristop)} \
+                                                \n VLOGA: {sestevek} SMER: {smer} \
+                                                \n *** SE EN PRISTOP: ***\nlist: {se_en_pristop_smer}\
+                                                \n se en sestevek = {se_en_sestevek} ena smer = {se_ena_smer} \
+                                                \n DODATNO: GV.ma3_vrh_dno =  {global_value.ma3_vrh_dno} \
+                                                \n > bar2[s] {bar2['s']} bar1[s] {bar1['s']} \
+                                                \n bar0[o] {bar0['o']} MA3[-4] = {MA3[-4]}  ODPRTO JE = {'NAD' if MA3[-4] < bar0['o'] else 'SPODAJ'} \
+                                                \n bar0[o] {bar0['o']} MA3[-3] = {MA3[-3]}  ODPRTO JE = {'NAD' if MA3[-3] < bar0['o'] else 'SPODAJ'} \
+                                                \n bar0[o] {bar0['o']} MA3[-1] = {MA3[-1]}  ODPRTO JE = {'NAD' if MA3[-1] < bar0['o'] else 'SPODAJ'} \
+                                                \n ma3 0 in 1 sta nad ma10 0 {ma3_in_ma10} \
+                                                \n\n------- AKTIVNO konec ------- {datetime.now()}\n\n"
+            #print(povzeto["testiram test_smer_ma78 = "])
+            #print(povzeto["testiram test_smer_fractal = "])
+            #print(povzeto["testiram test_smer_izbor_ma2_3 = "])
+            #print(povzeto["PREHOD NOV PRISTOP = "])
+            #print(povzeto["PREHOD NOV PRISTOP hiter = "]) # se zmeraj me sezuje!!! drugace kar dober
+            
+            print(povzeto["NOV PRISTOP LIST = "])
+            # tukaj dolocim znesek vloge ki ni vezan na masaniello pa da vidim koliko in kaksne bodo napake
+            vloga_ma3 = abs(sestevek)
+            
+            
+            """  AKTIVNO  """
+            
+                        
+            if not testiranje_skripta:
+                print(f"\n\nPRIMERJAVA VLOG:\n vloga_ma3 = {vloga_ma3} \n GV.masaniello_vloga = {global_value.masaniello_vloge[negativni_trejdi]}")
+            
+            
+            
+            """********************************************************************************************************************<"""    
+            """********************************************************************************************************************"""    
+            print("\n(global_value.balance) STANJE BANKE: ",global_value.balance)
+            dosezeno_stanje_balance = 500
+            if global_value.balance > dosezeno_stanje_balance:
+                print("\n\n*******************************************************************\
+                    \n********************** DOSEZENO JE STANJE ***********************\
+                    \n*******************************************************************")
+                print("\n STANJE BANKE: ",global_value.balance)
+                print("URA: ",datetime.now())
+                print("\n\n---------- USTAVLJAM PROCES ----------------\n\n")
+                quit()
+                 
+            
+            
+            
+            
+            
+            if labu:
+                print("GV.laubuchere_vloge: ",global_value.laubuchere_vloge)
+                
+            global_value.balance_pred_vplacilom = global_value.balance
+            
+            """   POSTAVLJANJE TREJDA """
+            if smer == "ne":
+                print("\ncas: ",datetime.now())
+                print("SMER JE ne (continue) ",Aktivni_par)
+                print("ZNESEK VLOGE BI BIL = ",vloga_ma3)
+                print("TUKAJ MORAM IZPRAZNITI rezultat_ma3[] trenutno je = ",rezultat_ma3)
+                rezultat_ma3=[]
+                rezultat_ma3_s30=[]
+                print("rezultat_ma3 = ",rezultat_ma3)
+                
+                """
+                print(">> pripravljeno vplacilo: vplacilo_vloge = ",vplacilo_vloge)
+                print(">> pripravljeno vplacilo: vplacilo_vloge = len = ",len(vplacilo_vloge))
+ 
+                if not labu:
+                    print(f"krog_obrat= {krog_obrat} vplacilo vplacilo_vloge[krog_obrat] = {vplacilo_vloge[krog_obrat]} ")
+                    vplacilo_trejda = vplacilo_vloge[krog_obrat]
+                if labu:
+                    vplacilo_trejda = vplacilo_vloge[0] + vplacilo_vloge[-1]
+                    #vplacilo_vloge.pop(0)
+                    #vplacilo_vloge.pop()
+                
+                print(">> pripravljeno vplacilo: vloga_ma3 = ",vloga_ma3)
+                #povzeto["vplacilo_trejda = "] = f"{vplacilo_trejda} || CONTINUE || krog = {krog_obrat} seja = {global_value.seja}"
+                # 
+                """
+                
+                povzeto["\nvplacilo_trejda = "] = f"{vloga_ma3} || CONTINUE || krog = {krog_obrat} seja = {global_value.seja} SMER: {smer}"
+                """
+                kluci_list = list(povzeto.keys())
+                sredina_cen = 0
+                for i in kluci_list:
+                    if "NAKLON" in i:
+                        print(f"{i} vsebuje >> [ {povzeto[i][0]:.6f}, {povzeto[i][1]:.6f} ] ")
+                        povzeto[f"*> {i} = "] = f" [ {povzeto[i][0]:.6f}, {povzeto[i][1]:.6f} ] "
+                        """
+                #takojsnji zapis
+                prehod_povzeto = {}
+                prehod_povzeto["prehod_po<vzeto = "] = "\n\n ******** PREHOD POVZETO ZADNJIH 7 ********** \n\n"
+                for i in list(povzeto.keys())[-7:]:
+                    prehod_povzeto[i] = povzeto[i]
+                #zapis_rezultata(povzeto)
+                prehod_povzeto["prehod_povzeto konec  = "] = "\n\n ******** PREHOD POVZETO ZADNJIH 7 **** KONEC ****** \n\n"
+                zapis_rezultata(prehod_povzeto)
+                povzeto={}
+                prehod_povzeto={}
+                continue
+            elif smer == "put":
+                #rezultat_ma3 = akcija(1, Aktivni_par, smer, 58)
+                print("\nPUT >> vplacilo: vloga_ma3 = ",vloga_ma3)
+                print(f"NA NOVO PREVERJAM: krog_obrat= {krog_obrat} ")
+                
+                # RESET HITREGA FRAKTALA
+                global_value.aktivni_fraktal_hiter = "ne"
+                """
+                print(">> pripravljeno vplacilo: vplacilo_vloge = len = ",len(vplacilo_vloge))
+                print("\nPUT >> vplacilo: vplacilo_vloge list = ",vplacilo_vloge)
+                if not labu:
+                    print(f"NA NOVO PREVERJAM: vplacilo vplacilo_vloge[krog_obrat] = {vplacilo_vloge[krog_obrat]} ")
+    
+                    print(f"krog_obrat= {krog_obrat}  |>> vplacilo vloga = {vplacilo_vloge[krog_obrat]} ")
+                    vplacilo_trejda = vplacilo_vloge[krog_obrat]
+                if labu:
+                    vplacilo_trejda = vplacilo_vloge[0] + vplacilo_vloge[-1]
+                    vplacilo_vloge.pop(0)
+                    vplacilo_vloge.pop()
+                #povzeto["vplacilo_trejda = "] = f"{vplacilo_trejda} || PUT|| krog = {krog_obrat} seja = {global_value.seja}"
+                #print("PUT >> Aktivno vplacilo je = ",vplacilo_trejda)
+                # 
+                """
+                povzeto["\nvplacilo_trejda = "] = f"{vloga_ma3} || PUT|| krog = {krog_obrat} seja = {global_value.seja}"
+                print("\nPUT >> Aktivno vplacilo je = ",vloga_ma3)
+                #rezultat_ma3 = akcija(vloga_ma3+0.1, Aktivni_par, smer, 58)# 58
+                #rezultat_ma3 = akcija(vloga_ma3+0.1, Aktivni_par, smer, 57)# 45<
+                rezultat_ma3 = akcija(vloga_ma3+0.1, Aktivni_par, smer, razlika_do_konce_minute-1)# 45
+                #rezultat_ma3_s30 = akcija(vloga_ma3, Aktivni_par, smer, 15)
+                #rezultat_ma3_s30 = akcija(vloga_ma3, Aktivni_par, smer, 45)
+                #krog_obrat +=1
+                
+            elif smer == "call":
+                print("\nCALL >> vplacilo vloga_ma3 = ",vloga_ma3)
+                print(f"NA NOVO PREVERJAM: krog_obrat= {krog_obrat} ")
+                
+                # RESET HITREGA FRAKTALA
+                global_value.aktivni_fraktal_hiter = "ne"
+                """
+                print(">> pripravljeno vplacilo: vplacilo_vloge = len = ",len(vplacilo_vloge))
+                print("\nCALL >> vplacilo vplacilo_vloge list = ",vplacilo_vloge)
+                if not labu:
+                    print(f"NA NOVO PREVERJAM: vplacilo vplacilo_vloge[krog_obrat] = {vplacilo_vloge[krog_obrat]} ")
+    
+                    print(f"krog_obrat= {krog_obrat}   |>> vplacilo vloga = {vplacilo_vloge[krog_obrat]} ")
+                    vplacilo_trejda = vplacilo_vloge[krog_obrat]
+                if labu:
+                    vplacilo_trejda = vplacilo_vloge[0] + vplacilo_vloge[-1]
+                    vplacilo_vloge.pop(0)
+                    vplacilo_vloge.pop()
+                #rezultat_ma3 = akcija(1, Aktivni_par, smer, 58)
+                #vplacilo_trejda = vplacilo_vloge[krog_obrat]
+                # 
+                #povzeto["vplacilo_trejda = "] = f"{vplacilo_trejda} || CALL|| krog = {krog_obrat} seja = {global_value.seja}"
+                #print("\nCALL >> Aktivno vplacilo je = ",vplacilo_trejda)
+                """
+                povzeto["\nvplacilo_trejda = "] = f"{vloga_ma3} || CALL|| krog = {krog_obrat} seja = {global_value.seja}"
+                print("\nCALL >> Aktivno vplacilo je = ",vloga_ma3)
+                #rezultat_ma3 = akcija(vloga_ma3+0.1, Aktivni_par, smer, 58)#58
+                #rezultat_ma3 = akcija(vloga_ma3+0.1, Aktivni_par, smer, 57)#45<
+                rezultat_ma3 = akcija(vloga_ma3+0.1, Aktivni_par, smer, razlika_do_konce_minute -1)#45
+                #rezultat_ma3_s30 = akcija(vloga_ma3, Aktivni_par, smer, 15)
+                #rezultat_ma3_s30 = akcija(vloga_ma3, Aktivni_par, smer, 45)
+                
+                #krog_obrat +=1
+                
+            print("\n STEVILO KROGA PO VPLACILU = ",krog_obrat)
+            
 
 
