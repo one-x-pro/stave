@@ -3,19 +3,9 @@ from datetime import datetime, timedelta, timezone, UTC
 from pocketoptionapi.stable_api import PocketOption
 import pocketoptionapi.global_value as global_value
 import pocketoptionapi.razred_Masaniello_v3 as MC
-import pocketoptionapi.razred_super_trend as ST
+#import pocketoptionapi.razred_super_trend as ST
 
-#from ssl import SSL_ERROR_INVALID_ERROR_CODE
-#import math, asyncio, json, threading, random
-#from types import prepare_class
-#from zipfile import BadZipfile
 
-# from pocketoptionapi.stable_api import PocketOption
-# import Trejd_RL_sistem_v1
-#from pocketoptionapi.api import PocketOptionAPI
-#import logging
-# import time
-# import json
 
 
 """ TUKAJ JE TESTIRANJE:
@@ -36,22 +26,6 @@ ssid = """42["auth",{"sessionToken":"241641b6886bb2afa68a1c3487ec0d37","uid":"22
 # ssid = """42["auth",{"sessionToken":"241641b6886bb2afa68a1c3487ec0d37","uid":"22580961","lang":"en","currentUrl":"cabinet/demo-quick-high-low","isChart":1}]"""
 demo = True  # True for demo account, False for real account
 # demo = False
-
-'''
-if not demo:
-    # print("\n PRIJAVA V REALNI RACUN")
-    # ssid = """42["auth",{"session": "a:4:{s:10:\"session_id\";s:32:\"c152f17bb882b8b7afdf134f982f6bc1\";s:10:\"ip_address\";s:13:\"178.79.67.174\";s:10:\"user_agent\";s:101:\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36\";s:13:\"last_activity\";i:1756551420;}3861b539c3310e0842e1ee7924326032", "isDemo": 0,"uid": 22580961,"platform": 3,"isFastHistory": true, "isOptimized": true }]"""
-    # ssid = """42["auth",{"sessionToken":"241641b6886bb2afa68a1c3487ec0d37","uid":"22580961","lang":"en","currentUrl":"cabinet/quick-high-low/USD","isChart":1}]"""
-    ssid = """42["auth",{"session":"a:4:{s:10:\"session_id\";s:32:\"c152f17bb882b8b7afdf134f982f6bc1\";s:10:\"ip_address\";s:13:\"178.79.67.174\";s:10:\"user_agent\";s:101:\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36\";s:13:\"last_activity\";i:1756551420;}3861b539c3310e0842e1ee7924326032","isDemo":0,"uid":22580961,"platform":3,"isFastHistory":true,"isOptimized":true}]"""
-    ssid = """42["auth",{"sessionToken":"241641b6886bb2afa68a1c3487ec0d37","uid":"22580961","lang":"en","currentUrl":"cabinet/quick-high-low/USD","isChart":1}]"""
-    ssid = r'42["auth",{"session":"a:4:{s:10:\"session_id\";s:32:\"e4f71e46a84bb35bb4953b909f1bda36\";s:10:\"ip_address\";s:13:\"178.79.67.174\";s:10:\"user_agent\";s:101:\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36\";s:13:\"last_activity\";i:1757160624;}1fcecbaa9b35ab3f0448c6092b870e6c","isDemo":0,"uid":22580961,"platform":3,"isFastHistory":true,"isOptimized":true}]'
-
-
-else:
-    # print("\nPRIJAVA V DEMO RACUN")
-    # ssid = """42["auth",{"sessionToken":"241641b6886bb2afa68a1c3487ec0d37","uid":"22580961","lang":"en","currentUrl":"cabinet/demo-quick-high-low","isChart":1}]"""
-    ssid = """42["auth",{"session":"33f9269kh2c1ghtjflktr7umdc","isDemo":1,"uid":22580961,"platform":3,"isFastHistory":true,"isOptimized":true}]"""
-'''
 
 
 #if '"isDemo":1' in ssid:
@@ -960,52 +934,6 @@ def masaniello():
     print("ZADNJA OHLC IZ BARS")
     bar_1 = ohlc(bars(Aktivni_par),1)
     bar_0 = ohlc(bars(Aktivni_par),0)
-    
-    """
-    print("SVECA 1 (to je misljena predzadnja sveca MINUTNA)")
-    print(" z prvo ceno ", minute[kluci[-2]][0])
-    print(" z max ceno (high) ", max(minute[kluci[-2]]))
-    print(" z min ceno (low) ", min(minute[kluci[-2]]))
-    print(" z zadnjo ceno ", minute[kluci[-2]][-1])
-    print("\nsveca je 1 ohlc: (PREDZADNJA *MINUTNA* SVECA)")
-    ohlc_izpis(minute[kluci[-2]])
-    print("\npredzadnji BAR")
-    ohlc(minute,1)
-    
-    print("SVECA 0 (to je aktivna sveca MINUTNA!!")
-    print(" zadnji kljuc z prvo ceno ", minute[kluci[-1]][0])
-    print(" zadnji kljuc z max ceno (high) ", max(minute[kluci[-1]]))
-    print(" zadnji kljuc z min ceno (low) ", min(minute[kluci[-1]]))
-    print(" zadnji kljuc z zadnjo ceno ", minute[kluci[-1]][-1])
-    print("\nsveca je 0 ohlc: (AKTIVNA *MINUTNA* SVECA)")
-    ohlc_izpis(minute[kluci[-1]])
-    """
-    
-    """
-    print("\nzadnji BAR")
-    #bar_1 = ohlc(minute,1)
-    print("bar_1 o = ",bar_1["o"])
-    print("bar_1 h = ",bar_1["h"])
-    print("bar_1 l = ",bar_1["l"])
-    print("bar_1 c = ",bar_1["c"])
-    print("bar_1 s = ",bar_1["s"])
-    print("BULL" if bar_1["o"] < bar_1["c"] else "BEAR")
-    print("\naktivni BAR")
-    #bar_0 = ohlc(minute,0)
-    print("bar_0 o = ",bar_0["o"])
-    print("bar_0 h = ",bar_0["h"])
-    print("bar_0 l = ",bar_0["l"])
-    print("bar_0 c = ",bar_0["c"])
-    print("bar_0 s = ",bar_0["s"])
-    print("BULL" if bar_0["o"] < bar_0["c"] else "BEAR")
-    
-    """
-    
-    #bar_0 = ohlc(minute,0)
-    #print("bar_0[o] = ",bar_0["o"])
-    
-    # DOBIM PREAVILNI IZPIS print("ohlc(minute_0)[o] = ",ohlc(minute,0)["o"])
-    
 
     zadnja_minuta = datetime.now().minute
     
@@ -1151,16 +1079,7 @@ def masaniello():
     smer = "ne"
     
     
-    """
-    print("dolzina len zgodovine = ",len(global_value.zgodovina_3[Aktivni_par]["zgodovina"]))
-    for i in range(10):
-        stevec = -1*(i+1)
-        print("for:: stevec ",stevec)
-        gv_cas = global_value.zgodovina_3[Aktivni_par]["zgodovina"][stevec][0]
-        gv_cas = datetime.fromtimestamp(gv_cas)
-        print("cas: ",gv_cas)
-        print("minute: ",gv_cas.minute)
-    """
+  
     #exit("USTAVLJAM TESTIRAM")
     obracanje_smeri = False # pri vsakem drugem negativnem trejdu zamenja smer
     preskok = 0 # stevilo pri preskoku pomeni koliko minut se zamakne nov trejd
@@ -1306,78 +1225,7 @@ def masaniello():
                         povzeto={}
                         
                 print("\n\n**************** KONEC ******************\n*************** PREVERJANJE REZULTATA TREJDA V NACUNU LABUSHERE *********\n\n")
-                        
-            '''
-            #### zakomentiraj
-            if testiranje_skripta:
-                print("\n\n ******************************************* \
-                    \n PREVERJANJE REZULTATA TREJDA V NACUNU >> TESTIRANJA << \
-                    \n ***********************************************\n\n")
-                if len(rezultat_ma3)> 0 and rezultat_ma3[0]:
-                    print("\n\n... preverjam api.check_win...")
-                    print("... preverjam api.check_win ZA M1... rezultat_ma3 = ",rezultat_ma3)
-                    print("... preverjam api.check_win ZA S30... rezultat_ma3_s30 = ",rezultat_ma3_s30)
-                    api_check_win = api.check_win(rezultat_ma3[1])
-                    #api_check_win_s30 = api.check_win(rezultat_ma3_s30[1])
-                    print("\napi.check_win(rezultat_ma3[1]) = ",api_check_win)
-                    #print("api_check_win_s30 = api.check_win(rezultat_ma3_s30[1]) = ",api_check_win_s30)
-                    povzeto["\napi check_win = ", ] = api_check_win
-                    #povzeto["api check_win_s30 = ", ] = api_check_win_s30
-                    global_value.izzid_trejda = api_check_win[1]
-                    print("rezultat_ma3 = ",rezultat_ma3)
-                    if api_check_win[0] == None:
-                        quit("\n\n KONCANJE SKRIPTA IN PROGRAMA \n\n")
-                    povzeto["rezultat_ma3 = "] = rezultat_ma3
-                    #povzeto["rezultat_ma3_s30 = "] = rezultat_ma3_s30
-                    if (api.check_win(rezultat_ma3[1]))[0] > 0: #pozitiven
-                        print("\nAPI::: POZITIVEN TREJD ", Aktivni_par,"\n")
-                        
-                        if labu:
-                            vplacilo_vloge.append(round(api_check_win[0],2))
-                            #vplacilo_vloge.pop(0)
-                            #vplacilo_vloge.pop()
-                        krog_obrat=0
-                        povzeto["trejd je = "] = "POZITIVEN TREJD"
-                        povzeto["stanje racuna = "] = api.get_balance()
-                        zapis_rezultata(povzeto)
-                        povzeto={}
-                        negativni_trejdi = 0
-                        """
-                    """
-                        with open("spremljanje.txt","a") as f:
-                            for i in zapis:
-                                f.write(f"\n{i}  {zapis[i]}")
-                                print(f"> {i}  {zapis[i]} ")
-                            f.write(f"\n***\n")
-                            """
-                    """
-                    elif (api.check_win(rezultat_ma3[1]))[0] < 0:
-                        print("\nAPI::: NEGATIVEN TREJD ",Aktivni_par,"\n")
-                        negativni_trejdi += 1
-                        povzeto["stanje racuna = "] = api.get_balance()
-                        krog_obrat += 1
-                        povzeto["trejd je = "] = f"NEGATIVEN TREJD ({negativni_trejdi}) (novi obrat = {krog_obrat})"
-                        bar1 = ohlc(bars(Aktivni_par),1)
-                        print("================================================ bar1 =====================================")
-                        print(bar1)
-                        povzeto[f"{bar1} = "] = f"{bar1}"
-                        print("================================================ bar1 =====================================\n")
-                        zapis_rezultata(povzeto)
-                        povzeto={}
-                        
-                    elif (api.check_win(rezultat_ma3[1]))[0] == 0:
-                        print("\nAPI::: ***NEC*** TREJD\n")
-                        povzeto["trejd je = "] = "***NEC*** TREJD"
-                        povzeto["stanje racuna = "] = api.get_balance()
-                        zapis_rezultata(povzeto)
-                        povzeto={}
-                print(Aktivni_par,"...PRAZNJENJE:: preverjam api.check_win ZA M1... rezultat_ma3 = ",rezultat_ma3)
-                rezultat_ma3=[]
-                print("...PRAZNJENJE:: preverjam api.check_win ZA S30... rezultat_ma3_s30 = ",rezultat_ma3_s30)     
-                rezultat_ma3_s30=[]
-            #### zakomentiraj
-            '''
-    
+                       
                  
             if negativni_trejdi >=3:
                 povzeto["klicem masanielo ="] =f"\n({Aktivni_par})  mesaniello() !!! STEVEC negativnih trejdov: {negativni_trejdi} \nURA: {datetime.now()}\n"
@@ -2378,172 +2226,6 @@ def masaniello():
             print(f"\n ****** K O N E C ************* STARA MINUTA ***************\nGV.ma3_vrh_dno = {global_value.ma3_vrh_dno}\n\n")
                 
                 
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-            '''
-        if datetime.now().second > 100 and datetime.now().second < 102:
-        #if datetime.now().second > 1 and datetime.now().second < 3:
-        #if datetime.now().second > 1 and datetime.now().second < 3:
-        #if datetime.now().second > 4 and datetime.now().second < 6:
-            #krog_obrat =1
-            print("\n\n================================================================")
-            print(f"\n\n KONEC KROGA WHILE \n\n NADALJENVANJE NOVEGA KROGA \n\n Aktivni par: {Aktivni_par}\n\n")
-            print(f"::> Stanje racuna {global_value.balance} Vplacano: {rezultat_ma3[0]} Vplacan znesek: {vloga_ma3+0.1:.2f} \n\n")
-            print(f"STEVILKA {krog_obrat} KROGA \n\n")
-            print(f"STEVILKA SEJE: {global_value.seja}  \n\n")
-            print("================================================================\n\n")
-            
-            povzeto["krog in seja = "] = f"{krog_obrat} || {global_value.seja} || {datetime.now()}"
-            povzeto["bilanca vplacano in znesek = "] = f"{global_value.balance} || {rezultat_ma3} || {vloga_ma3+0.1:.2f}"
-            
-            print(":::v pripravi::: ce ni vplacano prekini proces!!! :::v pripravi:::\n")
-            
-            '''
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-    
-    """ KONCAN WHILE LOOP """
-    kluci = list(minute.keys())
-    
-    print("minutni kluci:")
-    print(kluci)
-    
-    """
-    print("")
-    test_dict = {"besedilo 1":"vsebina","b 2":22}
-    
-    test_dict["\nb 3"] = "dodatek"
-    
-    print(test_dict)
-    with open("besedilo.txt","a") as f:
-        for i in test_dict:
-            f.write(f"{i} = {test_dict[i]}")
-            print(f" {i}  = {test_dict[i]} ")
-    
-    
-    print("\nIZPIS\n")
-    with open("besedilo.txt") as r:
-        print(r.read())
-    """
-    
-    zapis["Masaniello = "]=[ms_pozitivnih, ms_trejdov, ms_procent, ms_vloga]
-    zapis["Zakljuceno_ob_uri = "]= datetime.now()
-    
-    print("* open ", minute[kluci[-1]][0])
-    print("M1 HIGH ", max(minute[kluci[-1]]))
-    print("M1 LOW ", min(minute[kluci[-1]]))
-    print("M1 CLOSE ", minute[kluci[-1]][-1])
-    odprta = minute[zadnji_izdelan_kluc_minute][0]
-    zaprta = minute[zadnji_izdelan_kluc_minute][-1]
-    print("\nAktivni_par = ", Aktivni_par)
-    zapis["Aktivni_par = "]=Aktivni_par
-    print("podatki aktivnega para: ", global_value.pairs[Aktivni_par])
-    zapis["\npodatki_aktivnega_para: "] = global_value.pairs[Aktivni_par]
-    print("\nzadnja minutna >> sveca je ", "BULL" if odprta < zaprta else "BEAR")
-    print("  KONCANO ")
-    
-    # racun_koncna_banka =0
-    racun_koncna_banka = api.get_balance()
-    # cas_isteka = 5
-    # print("KONCANO krog= ",krogov," cas isteka svece= ",cas_isteka," sekund")
-    print("Zakljuceno ob uri: ", datetime.now())
-    print("KONCANO krog= ", krogov)
-    zapis["KONCANO_krog: "] = krogov
-    print("bilo je vseh trejdov= ", stetje_trejdov)
-    print("pozitivni= ", pozitivni_trejdi)
-    print("negativnih= ", stetje_trejdov - pozitivni_trejdi)
-    try:
-        print("razmerje= ", (stetje_trejdov - pozitivni_trejdi) / pozitivni_trejdi)
-    except ZeroDivisionError as e:
-        print("ne gre izracunat razmerja zaradi napake: ", e)
-    except:
-        print(" ne morem izracunati RAZMERJA!! (ZeroDivisionError: division by zero)")
-    print("zaporedje trejdov= ", zaporedje_trejdov)
-    zapis["zaporedje_trejdov= "]=zaporedje_trejdov
-    # print("rezultati trejdov ",rezultati_trejdov)
-    print("Uspesnost trejdov = ", uspesnost_trejdov)
-    zapis["uspesnost_trejdov: "] = uspesnost_trejdov
-    print("shranjen izbor = ", shranjen_izbor)
-    zapis["shranjen_izbor: "] = shranjen_izbor
-    print("polja = ", polje)
-    print("preverjanje_izbora = ", preverjanje_izbora)
-    zapis["preveerjanje_izbora "] = preverjanje_izbora
-    print("MA IZBOR: ",ma_izbor)
-    print("ma_skupna= ", ma_skupna)
-    zapis["ma_skupna "] = ma_skupna
-    print("ma_skupna pozitivna= ", ma_skupina_pozitivni)
-    zapis["ma_skupna_pozitivni"] = ma_skupina_pozitivni
-    print("ma_skupna negativna= ", ma_skkupina_negativni)
-    zapis["ma_skupna_negativni "] = ma_skkupina_negativni
-    print("!!>> kombinacija_izbor IZBOR: ",kombinacija_izbor)
-    print("IZBRANA SMER: ",izbrana_smer)
-    zapis["IZBRANA_SMER: "]=izbrana_smer
-    print("izbor tri je: ",izbor_tri)
-    zapis["izbor tri je: "] = izbor_tri
-    print("aktivni_bar je: ",aktivni_bar)
-    zapis["aktivni_bar je: "] =aktivni_bar
-    print("prejsni_bar je: ",prejsni_bar)
-    zapis["prejsni_bar je: "] =prejsni_bar
-    print("TEST:: zapis[prejsni_bar je: ] => ",zapis["prejsni_bar je: "])
-    print("aktivne vloge: ",mas_vloga)
-    zapis["aktivne_vloge: "] = mas_vloga
-    
-    
-    
-    print(f"Banka zacetek: {zacetna_banka} ")  # banka konec: {koncna_banka} ")
-    print(f"Znesek banke = {Mmm.mbanka:0.2f}")
-    print(f"Rezultat razlika: {(Mmm.mbanka - zacetna_banka):0.2f}")
-    
-    print(f"> racun_zacetna_banka = {racun_zacetna_banka}")
-    print(f"> PROFIT = {(racun_koncna_banka - racun_zacetna_banka):0.2f} ")
-    print(f"> racun_koncna_banka = {racun_koncna_banka} ")
-    zapis["racun_zacetna_banka ="]=f"{racun_zacetna_banka}"
-    zapis["PROFIT ="]=f"{(racun_koncna_banka - racun_zacetna_banka):0.2f}"
-    zapis["racun_koncna_banka ="]=f"{racun_koncna_banka:0.2f}"
-    konec = time.perf_counter()
-    # print("start = ",start)
-    # print("konec = ",konec)
-    print("trajanje skupaj: sekun=  ", int(konec - start))
-    print("trajanje skupaj:   ", (int(konec - start)) / 60)
-    zapis["trajanje_skupaj ="]=(int(konec - start)) / 60
-    
-    with open("spremljanje.txt","a") as f:
-        for i in zapis:
-            f.write(f"\n{i}  {zapis[i]}")
-            print(f"> {i}  {zapis[i]} ")
-        f.write(f"\n***\n")
-    
-    
-    return racun_koncna_banka - racun_zacetna_banka
     
     
 #to_je_za_prenos_za_modul = f"\nkoncano mmbanka = {(Mmm.mbanka - zacetna_banka):0.2f} PROFIT = {(racun_koncna_banka - racun_zacetna_banka):0.2f} NOVO STANJE = {racun_koncna_banka} "
